@@ -1,0 +1,1049 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1" name="viewport"/><title>Royal Roulette | Multiplayer Table Demo</title>
+<style>
+:root{--bg:#070e10;--panel:#101d1e;--line:#4f4734;--gold:#e2bd77;--text:#f7f1df;--muted:#a7b9b1;--green:#087b4d}*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 50% -20%,#18382e,#080f11 70%);color:var(--text);font:14px system-ui,-apple-system,Segoe UI,sans-serif}button,input,select{font:inherit}button{cursor:pointer}button:disabled{opacity:.38;cursor:not-allowed}button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid #e5bc62;outline-offset:2px}header{border-bottom:1px solid #6a5736;background:#080e10ec;padding:15px max(18px,calc((100vw - 1500px)/2));display:flex;align-items:center;justify-content:space-between;gap:15px;flex-wrap:wrap}.brand{font:700 24px Georgia,serif;letter-spacing:2px;color:var(--gold)}.eyebrow{font-size:10px;letter-spacing:3px;color:#b9a67f}.head-right{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.tag{padding:9px 12px;border:1px solid #6d5c3b;border-radius:8px;color:#e7d3a7;font-size:12px}main{max-width:1536px;margin:auto;padding:18px}.stats{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:11px;margin-bottom:16px}.panel,.stat{background:linear-gradient(155deg,#172526,#0b1316);border:1px solid #60543a;border-radius:14px;box-shadow:0 9px 28px #0005}.stat{padding:13px;text-align:center;min-width:0}.stat small{font-size:10px;color:#b7b9a8;letter-spacing:1px}.stat strong{display:block;color:#f5d38e;font-size:clamp(16px,2vw,23px);margin-top:6px;overflow-wrap:anywhere}.green{color:#5fe7a3!important}.game{display:grid;grid-template-columns:minmax(320px, .9fr) minmax(580px,1.65fr);gap:16px}.wheel-panel{padding:17px;display:flex;flex-direction:column;align-items:center;justify-content:center}.wheel-wrap{width:min(100%,490px);aspect-ratio:1;position:relative}.wheel-wrap canvas{width:100%;height:100%;display:block;filter:drop-shadow(0 14px 17px #000b)}.pointer{position:absolute;left:50%;top:0;transform:translate(-50%,-14%);font-size:29px;color:#ffdf9b;z-index:2;text-shadow:0 2px 8px black}.result{min-height:43px;text-align:center;color:#f3d08c;font:700 18px Georgia,serif;margin-top:8px}.buttons{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}.btn{border:1px solid #91784b;border-radius:9px;padding:10px 13px;color:#f6e5c4;background:linear-gradient(#273536,#111b1d);font-weight:700}.btn.primary{background:linear-gradient(#19945e,#07623d);border-color:#65c68b}.btn.gold{background:linear-gradient(#ac7d34,#6e481b)}.btn:hover:not(:disabled){filter:brightness(1.16)}.btn.small{font-size:12px;padding:7px 10px}.felt{position:relative;min-width:0;padding:22px 17px 18px;background:radial-gradient(ellipse at 45% 42%,#0b754c,#08432f 80%);border:8px solid #623b21;outline:2px solid #d2ad68;outline-offset:-12px;border-radius:75px 75px 23px 23px;box-shadow:inset 0 0 60px #0009,0 15px 30px #0008}.felt-logo{text-align:center;color:#d2b8788c;font:700 clamp(20px,3vw,34px) Georgia,serif;letter-spacing:4px;margin:10px 0 22px}.felt-logo small{display:block;font:10px system-ui;letter-spacing:4px;margin-top:4px}.board{display:grid;grid-template-columns:43px repeat(12,minmax(0,1fr)) 43px;grid-template-rows:repeat(3,58px);gap:2px}.cell,.outside{position:relative;display:flex;align-items:center;justify-content:center;border:1px solid #dcc48c;min-width:0;color:white;font-weight:750;user-select:none;cursor:pointer}.cell{font-size:clamp(11px,1.3vw,18px)}.cell.red,.outside.red{background:#b32a33}.cell.black,.outside.black{background:#141a1c}.cell.zero,.cell.column,.outside{background:#08623e}.cell.zero{font-size:24px;grid-row:1/4;grid-column:1}.cell.column{font-size:10px}.cell:hover,.outside:hover{filter:brightness(1.28);outline:2px solid #fff6;z-index:5}.dozens{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;margin:4px 43px 0}.six{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:2px;margin:4px 43px 0}.outside{min-height:42px;font-size:12px}.note{text-align:center;font-size:12px;color:#d0d9c9;margin:16px 0 0}.lower{display:grid;grid-template-columns:1fr 1.45fr;gap:16px;margin-top:16px}.control-panel,.chip-panel,.dealer,.activity{padding:17px}.section-head{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}.section-head h2{font:700 17px Georgia,serif;color:#f4d28d;margin:0}.muted{color:var(--muted);font-size:12px}.balances{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;margin:16px 0}.balance-box{background:#091716;border:1px solid #3e5d4c;padding:11px;border-radius:10px}.balance-box small{color:#b4c5b8;display:block;font-size:11px}.balance-box strong{color:#f4d18d;display:block;font-size:22px;margin-top:5px}.chiprow{display:flex;flex-wrap:wrap;justify-content:center;gap:13px;margin:18px 0}.chip{--chip:#d8b55e;--ink:#fff;position:relative;border:3px solid #172021;border-radius:50%;width:74px;height:74px;flex:none;background:repeating-conic-gradient(from 0deg,#f6e8cc 0deg 11deg,var(--chip) 11deg 30deg);box-shadow:0 5px 0 #101718,0 8px 8px #0009,inset 0 0 0 3px #ffffff30;color:var(--ink);transition:transform .15s}.chip:before{content:"";position:absolute;inset:9px;border-radius:50%;background:radial-gradient(circle at 30% 25%,#ffffff35,transparent 40%),var(--chip);border:2px solid #ead7ae;box-shadow:inset 0 0 0 3px #0004}.chip span{position:relative;display:grid;place-items:center;height:100%;font-size:16px;font-weight:900;text-shadow:0 1px 3px #0009}.chip.selected{transform:translateY(-7px);outline:3px solid #f3ce7b;outline-offset:3px}.chip.light span{text-shadow:none}.chip-token{position:absolute;width:28px;height:28px;border-width:1px;left:50%;top:50%;transform:translate(-50%,calc(-50% - var(--layer,0)*4px));box-shadow:0 3px 0 #131b1c,0 5px 5px #000a;pointer-events:none;z-index:2;animation:chipdrop .2s ease-out both}.chip-token:before{inset:4px;border-width:1px}.chip-token span{font-size:7px}.bet-stack{position:absolute;inset:0;pointer-events:none;z-index:4}.stack-label{position:absolute;left:calc(50% + 11px);top:calc(50% - 25px);border:1px solid #e7c781;border-radius:5px;background:#0b1b1ef0;color:white;font-size:10px;padding:2px 4px;white-space:nowrap}.bet-stack.other .chip-token{left:72%;top:65%;transform:translate(-50%,calc(-50% - var(--layer,0)*3px));width:23px;height:23px}.bet-stack.other .chip-token span{font-size:6px}.bet-stack.other .stack-label{left:65%;top:64%;color:#f2d48c}.bet-stack.compact .stack-label{top:calc(50% - 20px)}@keyframes chipdrop{from{opacity:0;transform:translate(-50%,-130%) scale(.8)}to{opacity:1;transform:translate(-50%,calc(-50% - var(--layer,0)*4px)) scale(1)}}.settings{display:flex;gap:12px;align-items:center;justify-content:center;flex-wrap:wrap}.settings label{color:#d9c394;font-size:12px}.settings select{background:#132324;color:#f4e6c4;border:1px solid #847049;border-radius:7px;padding:7px}.players{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:16px}.player{padding:13px;display:flex;gap:10px;align-items:center;min-width:0}.avatar{width:38px;height:38px;flex:none;border-radius:50%;display:grid;place-items:center;color:white;font-size:21px}.player-info{min-width:0}.player-info strong{font-size:13px}.player-info p{margin:4px 0 0;color:#aebeb5;font-size:12px;line-height:1.5}.footer-panels{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px}.dealer .buttons{justify-content:flex-start;margin-top:14px}.dealer-controls{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:14px}.dealer-controls select,.dealer-controls input{background:#0a1719;color:#fff;border:1px solid #786843;border-radius:7px;padding:9px;max-width:100%}.dealer-controls input{width:125px}.history{display:flex;flex-wrap:wrap;gap:5px;margin-top:7px}.history b{display:grid;place-items:center;width:29px;height:29px;border-radius:5px;background:#b12d35;font-size:12px}.history b.black{background:#22292b}.history b.green{background:#087e4b}.log{max-height:180px;overflow:auto;padding:0;margin:13px 0 0;list-style:none}.log li{border-top:1px solid #35413b;padding:9px 0;color:#d2d9ce;font-size:12px}.modal-back{position:fixed;inset:0;background:#000d;z-index:30;display:none;align-items:center;justify-content:center;padding:16px}.modal-back.show{display:flex}.modal{width:min(430px,100%);background:#132022;border:1px solid #e0b975;border-radius:14px;padding:24px}.modal h2{font:700 23px Georgia,serif;color:#f4d18d}.modal input{width:100%;background:#081315;color:white;border:1px solid #977b4b;border-radius:8px;padding:12px;margin:12px 0}.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);z-index:40;background:#102e25;border:1px solid #e0ba73;border-radius:10px;padding:12px 18px;box-shadow:0 8px 30px #000a;display:none;max-width:90vw;text-align:center}.toast.show{display:block}.winflash{animation:flash .8s ease-out}@keyframes flash{0%{box-shadow:0 0 0 0 #f5d27b}40%{box-shadow:0 0 38px 12px #f5d27b88}100%{box-shadow:0 0 0 0 transparent}}@media(max-width:1100px){.game,.lower{grid-template-columns:1fr}.wheel-wrap{max-width:400px}.stats{grid-template-columns:repeat(3,1fr)}.players{grid-template-columns:repeat(2,1fr)}}@media(max-width:650px){header{padding:12px}.brand{font-size:19px}main{padding:9px}.stats{grid-template-columns:repeat(2,minmax(0,1fr))}.stat strong{font-size:17px}.felt{padding:15px 6px;border-width:5px;border-radius:35px 35px 16px 16px}.board{grid-template-columns:26px repeat(12,minmax(0,1fr)) 26px;grid-template-rows:repeat(3,44px);gap:1px}.cell{font-size:10px}.cell.zero{font-size:18px}.cell.column{font-size:7px}.dozens,.six{margin-left:26px;margin-right:26px;gap:1px}.outside{min-height:36px;font-size:9px}.footer-panels{grid-template-columns:1fr}.chip{width:60px;height:60px}.chip span{font-size:13px}.chiprow{gap:9px}.chip-token{width:23px;height:23px}.chip-token span{font-size:6px}.stack-label{font-size:8px}.balance-box strong{font-size:18px}.player{padding:9px}.avatar{width:30px;height:30px}}
+
+.round-overlay{position:fixed;inset:0;z-index:70;background:#030a0bdc;display:none;align-items:center;justify-content:center;padding:18px;backdrop-filter:blur(7px)}.round-overlay.show{display:flex}.round-card{width:min(510px,100%);border:2px solid #e1b86b;border-radius:22px;padding:27px 24px;background:radial-gradient(circle at top,#204536,#0b191b 76%);box-shadow:0 25px 85px #000d,0 0 38px #d6ac4938;text-align:center;animation:roundpop .45s cubic-bezier(.2,1.5,.4,1) both}.round-card.loss{border-color:#aa7474}.round-card h2{font:700 clamp(28px,6vw,43px) Georgia,serif;margin:9px 0;color:#f7d68f}.round-card.loss h2{color:#ffc0b6}.round-number{display:inline-grid;place-items:center;width:75px;height:75px;border-radius:50%;font-size:32px;font-weight:900;border:5px solid #e9d6a2;box-shadow:0 7px 16px #0008}.round-number.red{background:#bb2939}.round-number.black{background:#151b1e}.round-number.green{background:#087d4c}.round-details{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;margin:20px 0}.round-detail{background:#091716;border:1px solid #4e634d;border-radius:11px;padding:12px 5px}.round-detail small{display:block;color:#b4c4b8;font-size:11px;letter-spacing:.5px}.round-detail strong{display:block;font-size:clamp(17px,4vw,25px);margin-top:6px}.round-net{font-size:21px;font-weight:800;margin:13px 0 18px}.round-net.positive{color:#72f0ab}.round-net.negative{color:#ff9999}.round-net.neutral{color:#e5d2aa}@keyframes roundpop{from{opacity:0;transform:translateY(24px) scale(.85)}to{opacity:1;transform:translateY(0) scale(1)}}
+
+/* Brand is editable SVG markup, never a raster image. */
+.brand-with-logo{display:flex;align-items:center;gap:12px;font-size:22px}.brand-with-logo #headerAnvil svg{display:block;width:76px;height:49px}.felt-logo #feltAnvil svg{width:min(230px,45%);height:auto;display:block;margin:0 auto;filter:drop-shadow(0 3px 8px #0006)}.felt-logo small{margin-top:0}.chip .chip-anvil{position:absolute;z-index:1;width:28px;height:19px;top:13px;left:50%;transform:translateX(-50%);pointer-events:none}.chip .chip-anvil svg{width:100%;height:100%;display:block}.chip span.chip-value{position:absolute;z-index:2;inset:auto 0 11px;height:auto;font-size:14px;line-height:1.1}.chip-token .chip-anvil{width:12px;height:8px;top:4px}.chip-token span.chip-value{font-size:6px;bottom:3px}.chip.light .chip-value{color:#172021}.chip-token .chip-value{color:var(--ink)}
+
+.turn-panel{margin:16px 0;padding:16px;border:1px solid #8b754e;border-radius:12px;background:#0b1c1b}.turn-grid{display:flex;flex-wrap:wrap;align-items:end;gap:12px;margin-top:12px}.turn-grid label{display:grid;gap:5px;color:#e5cf9b;font-size:12px}.turn-grid select,.turn-grid input{background:#101e20;border:1px solid #8b754e;border-radius:7px;color:white;padding:9px;min-width:120px}.turn-current{color:#f1d18c;font-weight:800}.player.active{border-color:#f3c96d;box-shadow:0 0 0 2px #f3c96d55}.player input{background:#0d1b1b;border:1px solid #586a61;border-radius:5px;color:#fff;width:100%;padding:5px;font-weight:700}.player .turn-badge{color:#e8c478;font-size:11px}
+
+.round-players{max-height:220px;overflow:auto;margin:14px 0;text-align:left;border:1px solid #52624e;border-radius:10px;background:#0b1819}
+.round-player{display:grid;grid-template-columns:minmax(90px,1.4fr) repeat(3,minmax(65px,1fr));gap:8px;align-items:center;padding:10px;border-bottom:1px solid #33483d;font-size:12px}
+.round-player:last-child{border-bottom:0}.round-player strong{overflow-wrap:anywhere}.round-player span{text-align:right;font-variant-numeric:tabular-nums}
+.round-player .positive{color:#77f2a6}.round-player .negative{color:#ff9a9a}.round-player .neutral{color:#c4d0c5}
+.round-player-head{color:#d8b975;background:#182b28;font-size:10px;font-weight:700}
+@media(max-width:480px){.round-player{gap:4px;font-size:10px;padding:8px 5px}}
+ .career-panel{margin:18px 0;padding:22px;background:linear-gradient(125deg,#17231e,#121714);border:1px solid #8d733b;border-radius:16px}.career-progress{height:13px;border-radius:20px;background:#343d36;overflow:hidden;margin:14px 0}.career-progress>div{height:100%;width:0;background:linear-gradient(90deg,#c39a47,#f6d681);transition:width .35s}.career-challenges{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:9px}.career-task{padding:10px;border:1px solid #4b5148;border-radius:8px;font-size:12px}.career-task.complete{border-color:#a98d45;color:#f2d28c}.career-panel .balances{margin:12px 0} 
+.bust-back{position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:99999;display:none;align-items:center;justify-content:center;padding:18px}.bust-back.show{display:flex}.bust-card{width:min(530px,96vw);padding:35px 28px;text-align:center;border-radius:20px;border:2px solid #bd4e45;background:radial-gradient(ellipse at top,#3a1b1c,#171315 70%);box-shadow:0 0 80px #c33a302c;color:#f5eee8}.bust-card h2{font-size:clamp(27px,5vw,43px);color:#ff8580;margin:12px 0}.bust-card p{line-height:1.6}.bust-icon{font-size:56px}.bust-card .buttons{margin-top:25px}.bust-card .eyebrow{color:#e2a29a}
+.setup-names{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;margin:14px 0}.setup-names label{display:flex;flex-direction:column;gap:5px;font-size:12px;text-align:left}.setup-names input{min-width:0;width:100%;box-sizing:border-box;padding:11px;border:1px solid #776844;border-radius:8px;background:#121b18;color:#fff;font:inherit}.setup-names input:focus{outline:2px solid #d4ab58;outline-offset:1px}.setup-card{max-height:90vh;overflow-y:auto}
+.inside-bet-tools{display:flex;gap:9px;align-items:center;flex-wrap:wrap;margin:0 0 12px;color:#f1d394;font-size:12px}.inside-bet-tools select{background:#0d3125;color:#fff;border:1px solid #d7ba77;border-radius:8px;padding:9px}.board{position:relative}.inside-target{position:absolute;transform:translate(-50%,-50%);z-index:9;width:19px;height:19px;padding:0;border-radius:50%;border:2px solid #f8e1a1;background:#1e6a4d;box-shadow:0 0 0 2px #103a2b,0 0 10px #e8c47c99;cursor:pointer}.inside-target.corner{width:21px;height:21px;border-radius:5px;transform:translate(-50%,-50%) rotate(45deg)}.inside-target:hover,.inside-target:focus-visible{background:#e8bd60;box-shadow:0 0 0 4px #ffe9b46b,0 0 16px #ffe9b4;z-index:12}.inside-target .bet-stack{transform:rotate(0)}.inside-target.corner .bet-stack{transform:rotate(-45deg)}.inside-target .chip-token{width:19px!important;height:19px!important}.inside-target .stack-label{font-size:9px}.board.inside-mode .cell[data-bet^="n:"]{cursor:default}.inside-target.odds-active{outline:2px solid #fff}.inside-bet-tools .muted{flex:1;min-width:190px}
+.odds-lab{margin:24px 0;padding:24px;border:1px solid #a8884d;border-radius:16px;background:linear-gradient(140deg,#13251f,#111a18);color:#f1eee3}.odds-lab h3{margin:20px 0 8px;color:#e9cb89}.lab-controls{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px;align-items:end;margin:20px 0}.lab-controls label{display:flex;flex-direction:column;gap:7px;font-size:12px;color:#e6d5b2}.lab-controls select,.lab-controls input{width:100%;min-height:40px;border:1px solid #8b7954;border-radius:8px;background:#132c25;color:#fff;padding:9px}.lab-summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;margin:15px 0}.lab-metric{border:1px solid #4e695b;border-radius:10px;background:#183127;padding:13px}.lab-metric small{display:block;color:#c6bdab;font-size:11px;margin-bottom:6px}.lab-metric strong{display:block;font-size:19px;overflow-wrap:anywhere}.lab-metric.negative strong{color:#ff9c8d}.lab-metric.positive strong{color:#bce8aa}.lab-chart{padding:15px;border:1px solid #4e695b;border-radius:10px}.lab-chart-title{font-weight:700;margin-bottom:13px}.lab-chart-row{display:grid;grid-template-columns:80px minmax(80px,1fr) 75px;gap:12px;align-items:center;margin:12px 0;font-size:12px}.lab-track{height:16px;border-radius:20px;background:#263e35;overflow:hidden}.lab-fill{height:100%;border-radius:20px;transition:width .3s}.lab-fill.expected{background:#d6aa58}.lab-fill.actual{background:#57bb8c}.lab-table-wrap{overflow-x:auto}.lab-table{width:100%;border-collapse:collapse;font-size:13px;min-width:560px}.lab-table th,.lab-table td{padding:11px 12px;border-bottom:1px solid #3d5449;text-align:left}.lab-table th{color:#e9ca8e}.lab-table td{color:#f2f1e9}.lab-table tbody tr:hover{background:#203a30}@media(max-width:650px){.odds-lab{padding:14px}.lab-chart-row{grid-template-columns:68px minmax(70px,1fr) 60px;gap:7px}}.lab-roll-output{padding:15px;margin:15px 0;background:#10251e;border:1px solid #65815d;border-radius:12px}.lab-number-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(115px,1fr));gap:6px;margin:12px 0}.lab-number-stat{padding:8px 5px;border-radius:6px;text-align:center;font-size:12px;font-weight:700;color:white}.lab-number-stat.red{background:#a92e3c}.lab-number-stat.black{background:#25282a}.lab-number-stat.green{background:#13794e}.inside-target{z-index:20!important}.inside-target .bet-stack{pointer-events:none}.board .cell[data-bet^="n:"]{cursor:pointer!important}
+/* Betting directly on grid lines: subtle hover zones, no mode dropdown. */
+.board .inside-target{background:transparent!important;border:0!important;box-shadow:none!important;border-radius:0!important;width:15px!important;height:24px!important;z-index:20!important;opacity:.65}
+.board .inside-target.split{border-radius:6px!important}
+.board .inside-target.corner{width:17px!important;height:17px!important;transform:translate(-50%,-50%)!important;z-index:22!important}
+.board .inside-target:hover,.board .inside-target:focus-visible{background:#f6d98d!important;box-shadow:0 0 0 3px #f6d98d66!important;opacity:1}
+.board .inside-target:has(.bet-stack){background:#d5ad6180!important;opacity:1}
+.board .inside-target .bet-stack{opacity:1;pointer-events:none}
+.board .inside-target .chip-token{width:20px!important;height:20px!important}
+.board .inside-target.corner .bet-stack{transform:none!important}
+@media(max-width:650px){.board .inside-target{width:11px!important;height:18px!important}.board .inside-target.corner{width:13px!important;height:13px!important}}
+ .street-strip{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:2px;margin:3px 6.6% 8px 6.6%;padding-left:0}.street-cell{background:#116547;border:1px solid #d4bb7b;color:#f4e6bc;border-radius:3px;font-size:clamp(8px,0.9vw,11px);font-weight:800;min-width:0;min-height:28px;cursor:pointer;padding:2px 0;position:relative}.street-cell:hover,.street-cell:focus-visible{background:#258d61;outline:2px solid #ffdf83}.street-cell .bet-stack{position:absolute;top:0;left:50%;transform:translate(-50%,-20%);pointer-events:none}.street-cell .chip-token{width:20px!important;height:20px!important}.tutorial-back:not([hidden]){display:flex}.tutorial-back[hidden]{display:none!important}.tutorial-back{position:fixed;inset:0;z-index:100001;background:#030a08ed;align-items:center;justify-content:center;padding:16px}.tutorial-card{max-height:90vh;overflow:auto;width:min(940px,100%);background:linear-gradient(145deg,#19392e,#101b19);color:#f5efdd;border:2px solid #d6b878;border-radius:18px;padding:24px;box-shadow:0 20px 70px #000b}.tutorial-top{display:flex;justify-content:space-between;align-items:center;gap:12px}.tutorial-top h2{color:#f2d28b;font:700 clamp(22px,3vw,32px) Georgia,serif;margin:0}.tutorial-card p{line-height:1.55}.tutorial-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;margin:18px 0}.tutorial-grid article{background:#112820;border:1px solid #52745f;border-radius:10px;padding:14px}.tutorial-grid h3{font-size:15px;color:#eac87e;margin:0}.tutorial-grid p{font-size:13px;margin:8px 0 0}.tutorial-tip{background:#293122;border-left:4px solid #d9b468;padding:13px;line-height:1.55;font-size:13px}header .head-right{display:flex;align-items:center;gap:8px;flex-wrap:wrap}@media(max-width:650px){.street-strip{margin-right:6.5%;margin-left:6.5%;gap:1px}.street-cell{font-size:7px;min-height:24px}.tutorial-card{padding:15px}}
+/* Casino-table betting markers: horizontal on horizontal dividing lines. */
+.board .inside-target.split.horizontal{width:27px!important;height:11px!important;border-radius:8px!important}
+.board .inside-target.split.vertical{width:11px!important;height:27px!important;border-radius:8px!important}
+.board .inside-target.street.horizontal{width:32px!important;height:13px!important;border-radius:8px!important;background:#c5a05255!important;opacity:.9!important}
+.board .inside-target.street.horizontal:hover,.board .inside-target.street.horizontal:focus-visible{background:#f7d68e!important}
+.board .inside-target.street .bet-stack{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);pointer-events:none}
+.board .inside-target .bet-stack{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);pointer-events:none}
+.board .inside-target .bet-stack .chip-token{width:20px!important;height:20px!important}
+@media(max-width:650px){.board .inside-target.split.horizontal{width:19px!important;height:10px!important}.board .inside-target.split.vertical{width:10px!important;height:19px!important}.board .inside-target.street.horizontal{width:20px!important;height:12px!important}}
+</style>
+<style id="clean-chip-face-v5">
+/* A single deliberate lockup: white anvil above denomination, inside inner circle. */
+.chip {isolation:isolate;}
+.chip > .chip-anvil {position:absolute!important;z-index:3!important;inset:0!important;width:100%!important;height:100%!important;top:0!important;left:0!important;transform:none!important;display:flex!important;justify-content:center!important;align-items:center!important;pointer-events:none!important;padding:0 0 15px!important;}
+.chip > .chip-anvil svg {display:block!important;width:36%!important;height:auto!important;max-height:27%!important;overflow:visible!important;flex:none!important;filter:drop-shadow(0 1px 0 #080808);}
+.chip > .chip-anvil svg g[mask] > path {fill:#fff!important;stroke:#111!important;stroke-width:8px!important;stroke-linejoin:round!important;paint-order:stroke fill!important;}
+.chip > .chip-value {position:absolute!important;z-index:4!important;left:0!important;right:0!important;top:55%!important;bottom:auto!important;inset:auto 0 auto!important;top:55%!important;transform:none!important;display:block!important;width:100%!important;text-align:center!important;font-size:12px!important;line-height:1!important;letter-spacing:-.35px!important;font-weight:900!important;color:#fff!important;text-shadow:0 1px 2px #000,0 0 3px #000!important;}
+.chip.chip-token > .chip-anvil {padding-bottom:6px!important;}
+.chip.chip-token > .chip-anvil svg {width:39%!important;max-height:29%!important;}
+.chip.chip-token > .chip-value {top:55%!important;font-size:5px!important;letter-spacing:-.15px!important;}
+@media(max-width:650px){.chip:not(.chip-token) > .chip-value{font-size:10px!important;}}
+</style>
+<style id="black-anvil-chip-face">
+/* Solid black anvil and denomination, without outline or glow. */
+.chip > .chip-anvil svg g[mask] > path { fill:#111!important; stroke:none!important; stroke-width:0!important; paint-order:normal!important; }
+.chip > .chip-anvil svg { filter:none!important; }
+.chip > .chip-value { color:#111!important; text-shadow:none!important; }
+</style>
+<style id="casino-black-inlay-v7">
+/* Matte clay edge with six restrained ivory edge spots and a black printed inlay. */
+.chip {background:repeating-conic-gradient(from -15deg,var(--chip) 0deg 47deg,#eee5d6 47deg 60deg)!important;}
+.chip::before {content:""!important;position:absolute!important;inset:10px!important;border-radius:50%!important;background:#101214!important;border:2px solid #c9b48b!important;box-shadow:0 0 0 2px #0006,inset 0 1px 3px #000!important;z-index:1!important;}
+.chip > .chip-anvil svg g[mask] > path {fill:#fff!important;stroke:none!important;stroke-width:0!important;filter:none!important;}
+.chip > .chip-value {color:#fff!important;text-shadow:none!important;font-weight:850!important;letter-spacing:-.2px!important;top:56%!important;}
+.chip > .chip-anvil {padding-bottom:15px!important;}
+.chip > .chip-anvil svg {width:35%!important;max-height:26%!important;filter:none!important;}
+.chip.chip-token::before {inset:4px!important;border-width:1px!important;}
+.chip.chip-token > .chip-anvil {padding-bottom:5px!important;}
+.chip.chip-token > .chip-anvil svg {width:39%!important;max-height:29%!important;}
+.chip.chip-token > .chip-value {top:55%!important;font-size:5px!important;letter-spacing:-.1px!important;}
+.chip.selected {outline:0!important;box-shadow:0 8px 0 #101718,0 12px 12px #0009,0 0 0 2px #e9c579!important;}
+@media(max-width:650px){.chip:not(.chip-token) > .chip-value{font-size:10px!important;}}
+</style>
+<style id="reference-inspired-casino-chips">
+/* Reference-inspired bevelled clay chips; all branding is editable inline SVG. */
+.chip:not(.chip-token){
+  width:76px;height:76px;border:2px solid #202426!important;
+  background:repeating-conic-gradient(from -8deg, #e9e9e6 0deg 9deg,var(--chip) 9deg 52deg,#e9e9e6 52deg 60deg)!important;
+  box-shadow:0 5px 0 #0b1113,0 9px 10px #0009,inset 0 0 0 3px #ffffff28!important;
+  transform:rotate(-17deg) scaleY(.88);transition:transform .2s,filter .2s;
+}
+.chip:not(.chip-token).selected{transform:translateY(-7px) rotate(-17deg) scaleY(.88);outline:2px solid #e8ca77;outline-offset:4px}
+.chip:not(.chip-token):hover{filter:brightness(1.1)}
+.chip::before{inset:10px!important;border:2px solid #e7e5df!important;
+ background:radial-gradient(circle at 35% 23%,#33383a,#101316 65%)!important;
+ box-shadow:0 0 0 2px #0009,inset 0 1px 4px #000!important;}
+.chip > .chip-anvil{padding-bottom:16px!important;}
+.chip > .chip-anvil svg{width:36%!important;max-height:26%!important;filter:none!important;}
+.chip > .chip-anvil svg g[mask] > path{fill:#fff!important;stroke:none!important;filter:none!important;}
+.chip > .chip-value{top:55%!important;color:#fff!important;font-size:12px!important;font-weight:850!important;text-shadow:none!important;}
+/* Stacked betting chips stay round and readable in the compact betting grid. */
+.chip.chip-token{border:1px solid #202426!important;background:repeating-conic-gradient(from -8deg,#e8e8e4 0deg 9deg,var(--chip) 9deg 52deg,#e8e8e4 52deg 60deg)!important;}
+.chip.chip-token::before{inset:4px!important;border:1px solid #e7e5df!important;}
+.chip.chip-token > .chip-anvil{padding-bottom:5px!important;}
+.chip.chip-token > .chip-anvil svg{width:40%!important;max-height:30%!important;}
+.chip.chip-token > .chip-value{top:56%!important;font-size:5px!important;}
+@media(max-width:650px){.chip:not(.chip-token){width:60px;height:60px}.chip:not(.chip-token)::before{inset:8px!important}.chip:not(.chip-token) > .chip-value{font-size:10px!important}}
+</style>
+<style id="achievement-styles">
+.achievement-panel{margin:18px 0;padding:20px;background:linear-gradient(135deg,#122623,#101a1b);border:1px solid #8b754e;border-radius:14px}.achievement-toolbar{display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin:12px 0}.achievement-toolbar select{background:#0b191a;color:#fff;border:1px solid #8b754e;border-radius:7px;padding:9px}.achievement-summary{color:#e6c88c;font-weight:700}.achievement-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(175px,1fr));gap:10px}.achievement-tile{border:1px solid #46544c;border-radius:12px;padding:14px;background:#0c1919;min-height:125px;opacity:.65}.achievement-tile.unlocked{opacity:1;border-color:#cba35d;background:linear-gradient(145deg,#302917,#10211e);box-shadow:inset 0 0 0 1px #7e6035}.achievement-icon{font-size:27px}.achievement-name{font-weight:800;color:#f0d28e;margin-top:7px}.achievement-description{font-size:12px;color:#c7d0c8;margin-top:5px}.achievement-progress{font-size:11px;color:#9cb2a4;margin-top:7px}.achievement-tile.unlocked .achievement-progress{color:#f2cc78}.achievement-pop{position:fixed;z-index:10000;right:18px;top:18px;width:min(360px,calc(100vw - 36px));padding:16px 18px;border:2px solid #e3bb66;border-radius:14px;background:linear-gradient(125deg,#302617,#10251f);color:#fff;box-shadow:0 16px 55px #000b;transform:translateX(125%);opacity:0;transition:transform .35s,opacity .35s;pointer-events:none}.achievement-pop.show{transform:translateX(0);opacity:1}.achievement-pop strong{display:block;color:#f7d786;font-size:19px;margin:5px 0}.achievement-pop small{color:#d7e2d7}.player-trophies{color:#e6c178;font-size:11px;margin-top:4px}
+</style><style id="table-settings-style">
+.save-panel{margin:18px 0;padding:20px;background:#14241e;border:1px solid #95733b;border-radius:16px}.save-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:14px;margin:12px 0 18px}.save-grid label,.setup-card label{display:grid;gap:7px;color:#e9dbbd;font-size:14px}.save-grid select,.setup-card select{width:100%;padding:11px;border-radius:8px;border:1px solid #9d855e;background:#14211e;color:#fff}.save-panel .buttons{display:flex;flex-wrap:wrap;gap:9px}.odds-tools{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:16px 0 8px}.odds-tooltip{position:relative;z-index:10;padding:13px 16px;border:1px solid #d8b46a;border-radius:10px;background:#101f19;color:#fff0c8;font-weight:600;margin:8px 0}.odds-active{outline:2px dashed #efc56e!important;outline-offset:-3px;cursor:help!important}.setup-back{position:fixed;inset:0;z-index:99999;background:rgba(2,8,7,.92);display:flex;justify-content:center;align-items:center;padding:18px;overflow:auto}.setup-back.hidden{display:none}.setup-card{width:min(440px,100%);padding:28px;background:linear-gradient(145deg,#21362b,#101c19);border:2px solid #b58a48;border-radius:18px;box-shadow:0 15px 70px #000b;display:grid;gap:16px;color:#fff}.setup-card h2{font:700 32px Georgia,serif;color:#f6d995;margin:0}.setup-card .btn{width:100%;min-height:46px}.setup-card .muted{line-height:1.5}
+</style>
+<style id="felt-board-polish">
+/* Cream-coloured inlaid lines between numbers, with a proper felt-table frame. */
+#board{
+ background:#d8bf83;
+ gap:3px;
+ padding:5px;
+ border:3px solid #d8bd7e;
+ border-radius:5px;
+ box-shadow:0 0 0 3px #063d2b,0 8px 20px #0007,inset 0 0 0 1px #fff2;
+}
+#board .cell{
+ border:0;
+ border-radius:1px;
+ box-shadow:inset 0 0 0 1px #ffffff12;
+}
+#board .cell.red{background:linear-gradient(155deg,#bd3340,#9b2432)}
+#board .cell.black{background:linear-gradient(155deg,#23292a,#101819)}
+#board .cell.zero,#board .cell.column{background:linear-gradient(155deg,#13734e,#07563a)}
+#board .cell:hover{filter:brightness(1.15)}
+/* The clickable markers are invisible until hovered/focused; no glow by default. */
+#board .inside-target,
+#board .inside-target.street.horizontal,
+#board .inside-target.split.horizontal,
+#board .inside-target.split.vertical,
+#board .inside-target.corner{
+ background:transparent!important;
+ border:0!important;
+ outline:0!important;
+ box-shadow:none!important;
+ opacity:1!important;
+}
+#board .inside-target:hover,
+#board .inside-target:focus-visible,
+#board .inside-target.street.horizontal:hover,
+#board .inside-target.street.horizontal:focus-visible{
+ background:#f6df9d9c!important;
+ box-shadow:0 0 0 2px #fff1c177!important;
+}
+#board .inside-target:has(.bet-stack),
+#board .inside-target.street.horizontal:has(.bet-stack){
+ background:transparent!important;
+ box-shadow:none!important;
+}
+#board .inside-target .bet-stack{opacity:1!important}
+#board .inside-target:has(.bet-stack) .bet-stack{filter:drop-shadow(0 1px 2px #000a)}
+/* Match the felt styling on the dozen and outside betting lanes. */
+#dozens,#outside{background:#d8bf83;gap:3px;padding:3px;border-radius:3px}
+#dozens .outside,#outside .outside{border:0;background:linear-gradient(160deg,#116c49,#095437)}
+#dozens .outside:hover,#outside .outside:hover{filter:brightness(1.2)}
+</style>
+<style id="marker-alignment-repair">
+/* Clean beige felt lines: targets exist for interaction, not as permanent lights. */
+#board .inside-target,
+#board .inside-target.split.horizontal,
+#board .inside-target.split.vertical,
+#board .inside-target.corner,
+#board .inside-target.street.horizontal {
+ background:transparent!important;
+ box-shadow:none!important;
+ border:0!important;
+ outline:none!important;
+ opacity:1!important;
+}
+#board .inside-target:not(:hover):not(:focus-visible){filter:none!important}
+#board .inside-target:hover,
+#board .inside-target:focus-visible{
+ background:#e6c77a66!important;
+ box-shadow:inset 0 0 0 1px #f5e2b1!important;
+}
+#board .inside-target .bet-stack{
+ position:absolute!important;
+ left:50%!important;top:50%!important;
+ transform:translate(-50%,-50%)!important;
+ width:22px!important;height:22px!important;
+ display:flex!important;align-items:center!important;justify-content:center!important;
+ pointer-events:none!important;
+ filter:none!important;
+}
+#board .inside-target .bet-stack .chip-token{
+ position:absolute!important;top:0!important;left:0!important;
+ width:20px!important;height:20px!important;
+ transform:none!important;
+ filter:none!important;
+ box-shadow:0 1px 2px #0007!important;
+}
+#board .inside-target .bet-stack .stack-label{
+ position:absolute!important;left:50%!important;top:100%!important;
+ transform:translateX(-50%)!important;
+ white-space:nowrap!important;font-size:8px!important;
+ background:#102d24e8!important;padding:1px 3px!important;border-radius:3px!important;
+ z-index:2!important;
+}
+#board .inside-target:has(.bet-stack){background:transparent!important;box-shadow:none!important}
+</style><style id="board-style-choice">
+.board-display-options{display:flex;align-items:center;flex-wrap:wrap;gap:10px;margin:0 0 12px;color:#f2dba7;font-size:12px}
+.board-display-options select{background:#122a23;border:1px solid #c9a76c;border-radius:7px;padding:8px;color:#f8edce}
+.board-display-options .muted{margin-left:auto}
+#outside [data-bet="red"],#outside .outside.red{background:linear-gradient(150deg,#c63842,#91232c)!important;color:#fff!important}
+#outside [data-bet="black"],#outside .outside.black{background:linear-gradient(150deg,#333839,#101516)!important;color:#fff!important}
+#outside [data-bet="red"]:hover,#outside [data-bet="black"]:hover{filter:brightness(1.22)}
+/* Classic keeps the current board size. Casino view uses taller cells and rotated numerals. */
+#board.board-casino{grid-template-rows:repeat(3,83px);gap:3px}
+#board.board-casino .cell[data-bet^="n:"]{font-size:clamp(17px,2.15vw,29px);font-weight:900;writing-mode:vertical-rl;transform:none;letter-spacing:0;line-height:1}
+#board.board-casino .cell.zero{font-size:29px}
+#board.board-casino .cell.column{font-size:11px}
+@media(max-width:650px){
+ #board.board-casino{grid-template-rows:repeat(3,65px);gap:2px}
+ #board.board-casino .cell[data-bet^="n:"]{font-size:clamp(14px,3vw,22px)}
+ #board.board-casino .cell.zero{font-size:20px}
+}
+</style><style id="casino-rotation-hover-restoration">
+/* Rotate the whole printed numeral 90 degrees, not individual glyphs. */
+#board.board-casino .cell[data-bet^="n:"]{
+ writing-mode:horizontal-tb!important;
+ font-size:clamp(19px,2.35vw,31px)!important;
+ overflow:visible;
+}
+#board .board-number{display:inline-flex;align-items:center;justify-content:center;pointer-events:none}
+#board.board-casino .board-number{
+ transform:rotate(-90deg);
+ transform-origin:center;
+ white-space:nowrap;
+ line-height:1;
+}
+/* Keep betting chips upright regardless of the printed number orientation. */
+#board.board-casino .cell[data-bet^="n:"] .bet-stack{writing-mode:horizontal-tb;transform:none}
+/* Bring back visible, precise hover feedback along split/street lines and corners. */
+#board .inside-target:hover,
+#board .inside-target:focus-visible,
+#board .inside-target:has(.bet-stack):hover,
+#board .inside-target:has(.bet-stack):focus-visible,
+#board .inside-target.street.horizontal:hover,
+#board .inside-target.street.horizontal:focus-visible{
+ background:rgba(255,221,139,.8)!important;
+ box-shadow:0 0 0 2px rgba(255,241,193,.75),0 0 11px rgba(250,217,127,.7)!important;
+ opacity:1!important;
+ filter:none!important;
+}
+#board .inside-target:not(:hover):not(:focus-visible){
+ background:transparent!important;
+ box-shadow:none!important;
+}
+#board .inside-target .bet-stack{pointer-events:none!important}
+#board .cell[data-bet^="n:"]:hover{box-shadow:inset 0 0 0 2px #f2d39c!important;filter:brightness(1.13)}
+</style><style id="compact-game-layout">
+#board.board-casino .cell.zero{writing-mode:horizontal-tb!important}
+#board.board-casino .cell.zero .board-number{transform:rotate(-90deg)!important;display:inline-flex;white-space:nowrap;line-height:1}
+.game-extras{margin:14px 0 0;border:1px solid #6b6048;border-radius:13px;background:#0e1919;overflow:hidden}
+.game-extras>summary{cursor:pointer;padding:16px 19px;font:700 17px Georgia,serif;color:#f4d28d;list-style-position:inside;background:linear-gradient(120deg,#1a2a27,#111b1b)}
+.game-extras>summary:hover{background:#24372e}
+.game-extras>summary small{font:12px system-ui;color:#afbbb1;margin-left:10px}
+.game-extras>.panel,.game-extras>.achievement-panel,.game-extras>.footer-panels{margin:0;border:0;border-top:1px solid #4e4a38;border-radius:0;box-shadow:none}
+.game-extras>.footer-panels{padding:14px}
+.game-extras .panel{max-width:100%}
+.lab-board-status{display:block;font-size:12px;color:#eacb88;margin:7px 0 0}
+@media(max-width:700px){.game-extras>summary{font-size:15px;padding:13px}.game-extras>summary small{display:block;margin:4px 0 0 19px}}
+</style><style id="hover-and-chip-persistence-fix">
+/* All split, corner and street hit areas glow only on hover, before any chips exist. */
+#board .inside-target{pointer-events:auto!important;cursor:pointer!important;z-index:30!important;visibility:visible!important;}
+#board .inside-target:hover,
+#board .inside-target:focus-visible,
+#board .inside-target:has(.bet-stack):hover,
+#board .inside-target:has(.bet-stack):focus-visible,
+#board .inside-target.split.horizontal:hover,
+#board .inside-target.split.vertical:hover,
+#board .inside-target.corner:hover,
+#board .inside-target.street.horizontal:hover{
+ background:rgba(255,223,148,.9)!important;
+ box-shadow:0 0 0 2px rgba(255,240,187,.95),0 0 10px rgba(255,206,105,.7)!important;
+ filter:none!important;opacity:1!important;
+}
+#board .inside-target:not(:hover):not(:focus-visible){background:transparent!important;box-shadow:none!important;}
+#board .inside-target .bet-stack{pointer-events:none!important;}
+</style><style id="multiplayer-side-panel">
+.table-turn-bar,.table-player-sidebar{border:1px solid #94784a;background:linear-gradient(120deg,#183a2d,#0d271e);border-radius:14px;padding:14px 18px;margin:14px 0;color:#f5e7c5}
+.table-turn-bar{display:flex;justify-content:space-between;align-items:center;gap:15px}
+.table-turn-bar>div{display:flex;flex-direction:column;gap:5px}
+.table-turn-bar strong{font-size:18px;color:#f7d78b}
+.table-turn-bar span{font-size:12px;color:#c8d2c5}
+.table-player-sidebar{padding:12px 14px}
+.table-sidebar-heading{display:flex;justify-content:space-between;gap:10px;font-size:12px;color:#f0d5a0;margin-bottom:10px}
+.table-player-rows{display:grid;grid-template-columns:repeat(auto-fit,minmax(205px,1fr));gap:9px}
+.table-player-row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:7px;align-items:center;background:#0b221a;border:1px solid #416351;border-radius:9px;padding:9px}
+.table-player-row.current{border-color:#f1c46e;box-shadow:inset 0 0 0 1px #d7ad5c}
+.table-player-identity,.table-player-amounts{display:flex;flex-direction:column;gap:3px;min-width:0}
+.table-player-identity strong{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.table-player-identity small,.table-player-amounts small{font-size:10px;color:#b4c3b7}
+.table-player-amounts{text-align:right}
+.table-player-row select{grid-column:1/-1;background:#153a2b;color:#fff;border:1px solid #587260;border-radius:6px;padding:5px;font-size:12px}
+.player-kind-label{display:flex;align-items:center;gap:5px;font-size:11px;margin-top:6px}
+.player-kind-label select{background:#183c2b;color:#fff;border:1px solid #846d4d;border-radius:5px}
+@media(min-width:1250px){.table-player-sidebar{position:relative}.table-player-rows{grid-template-columns:repeat(4,minmax(0,1fr))}}
+@media(max-width:600px){.table-turn-bar{flex-direction:column;align-items:stretch}.table-turn-bar button{width:100%}}
+</style><style id="aligned-betting-lanes-and-popup">
+/* Both lower betting rows share the exact number-grid width, excluding zero and 2-to-1. */
+#dozens,#outside{box-sizing:border-box;display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:3px;padding:3px;margin-top:3px}
+#dozens>.outside{grid-column:span 4;min-width:0}
+#outside>.outside{grid-column:span 2;min-width:0}
+#dozens>.outside,#outside>.outside{min-width:0;text-align:center;display:flex;align-items:center;justify-content:center;padding:10px 2px}
+.covered-switch{display:flex;align-items:center;gap:8px;margin:7px 0 11px;color:#f2d79e;font-size:12px;cursor:pointer}
+.covered-switch input{accent-color:#f0c96c;width:16px;height:16px}
+#board .cell.covered-by-bet{box-shadow:inset 0 0 0 3px #ffe7a3, inset 0 0 18px #f5d27d75!important;filter:brightness(1.24);position:relative}
+#board .cell.covered-by-bet .board-number{filter:drop-shadow(0 0 3px #ffdb7b)}
+.bet-popup-toggle{position:fixed;right:0;top:34%;z-index:120;background:#174c37;border:1px solid #e2bc72;border-right:0;border-radius:10px 0 0 10px;color:#fff1cb;padding:11px 10px;box-shadow:0 3px 16px #0009;cursor:pointer;font-weight:700;max-width:170px}
+.bet-popup-toggle span{display:block;font-size:11px;margin-top:4px}
+.bet-popup{position:fixed;right:0;top:calc(34% + 67px);width:235px;max-height:48vh;overflow:auto;z-index:121;background:#0d271e;border:1px solid #c8a76a;border-right:0;border-radius:12px 0 0 12px;padding:12px;box-shadow:0 7px 26px #000a;color:#f7e5bb}
+.bet-popup[hidden]{display:none!important}
+.bet-popup-title{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;font-size:13px}
+.bet-popup-title button{background:transparent;border:0;color:#f5e0b1;font-size:22px;cursor:pointer}
+.bet-popup-player{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:8px 3px;border-top:1px solid #355344;font-size:12px}
+.bet-popup-player span{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.bet-popup-player strong{white-space:nowrap;font-variant-numeric:tabular-nums}
+.bet-popup-player.active{color:#ffdb7d}
+@media(max-width:760px){.bet-popup-toggle{top:auto;bottom:12px}.bet-popup{top:auto;bottom:70px;max-height:45vh;width:min(240px,75vw)}}
+</style><style id="inventory-shop-style">.chip-shop{background:linear-gradient(120deg,#1b372b,#12251e);border:1px solid #927349;border-radius:12px;padding:12px;margin:12px 0;color:#f0dfbb}.chip-shop label{display:flex;gap:8px;align-items:center;font-weight:700}.chip-shop #inventoryInfo{font-size:12px;line-height:1.7;margin:10px 0}.chip-shop .shop-controls{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}.chip-shop select,.chip-shop input{background:#0b241c;color:#fff;border:1px solid #927349;border-radius:7px;padding:8px}.chip-shop input[type=number]{width:75px}.chip-shop button{background:#a77a32;color:#fff;border:0;border-radius:7px;padding:8px 12px;cursor:pointer}.chip-shop small{color:#c6c7b4}.chip-shop [hidden]{display:none!important}#chips button:disabled{opacity:.33;filter:grayscale(.7);cursor:not-allowed}</style><style id="under-board-chip-selector">
+/* The selector is visually attached to the betting board and stays visible. */
+#boardChipSelector{margin:10px 0 16px;padding:12px 12px 16px;border:1px solid #b89962;border-radius:12px;background:linear-gradient(145deg,#183d2c,#0d281e)}
+#boardChipSelector .section-head{margin-bottom:4px}#boardChipSelector .section-head h2{font-size:16px}
+#boardChipSelector .chiprow{margin:12px 0 8px;gap:17px}
+#boardChipSelector .chip{margin-bottom:14px}
+#boardChipSelector .chip-owned{position:absolute;z-index:5;bottom:-23px;left:50%;transform:translateX(-50%);height:auto;min-width:39px;padding:3px 6px;border-radius:12px;background:#0a1a15;border:1px solid #d6b678;color:#f9e5a7;font-size:12px;line-height:15px;font-weight:900;white-space:nowrap;text-shadow:none}
+#boardChipSelector .chip:disabled{opacity:.42;cursor:not-allowed}
+#boardChipSelector .chip-shop{margin-top:12px}
+#boardChipSelector .settings{margin-top:10px}
+@media(max-width:600px){#boardChipSelector .chiprow{gap:12px}#boardChipSelector .chip{width:60px;height:60px}}
+</style><style id="quick-chip-picker-style">
+/* Keep the interactive chips attached directly to the number and outside-bet grid. */
+.quick-chip-picker{margin:9px 0 10px;padding:9px 10px 18px;border:1px solid rgba(214,183,111,.68);border-radius:9px;background:rgba(5,25,17,.42)}
+.quick-chip-heading{display:flex;justify-content:space-between;gap:8px;align-items:center;color:#f1dba8;font-size:11px;letter-spacing:.05em}
+.quick-chip-heading span{font-size:10px;color:#b9c5b7;letter-spacing:0}
+.quick-chip-picker .chiprow{display:flex;justify-content:center;align-items:center;flex-wrap:wrap;gap:clamp(9px,2vw,21px);margin:10px 0 4px;min-height:90px}
+.quick-chip-picker .chip{margin-bottom:15px}
+.quick-chip-picker .chip-owned{position:absolute;z-index:5;bottom:-23px;left:50%;transform:translateX(-50%);height:auto;min-width:39px;padding:3px 6px;border-radius:12px;background:#0a1a15;border:1px solid #d6b678;color:#f9e5a7;font-size:12px;line-height:15px;font-weight:900;white-space:nowrap;text-shadow:none}
+.quick-chip-picker .chip:disabled{opacity:.42;cursor:not-allowed}
+@media(max-width:600px){.quick-chip-picker .chiprow{gap:11px}.quick-chip-picker .chip{width:58px;height:58px}.quick-chip-heading span{display:none}}
+</style><style id="betting-layout-reorder">
+/* The roulette wheel and betting grid come first, with the playable chips immediately below the grid. */
+.quick-chip-picker{order:0;margin-top:8px!important}
+.below-table-exchange{margin:12px 0 18px;border:1px solid #a88a53;border-radius:12px;background:#102d22;color:#f5dfae;overflow:hidden}
+.below-table-exchange>summary{cursor:pointer;list-style:none;padding:14px 18px;font-weight:800;display:flex;justify-content:space-between;align-items:center;gap:12px}
+.below-table-exchange>summary::-webkit-details-marker{display:none}
+.below-table-exchange>summary:after{content:'▾';margin-left:auto}
+.below-table-exchange[open]>summary:after{content:'▴'}
+.below-table-exchange>summary span{font-size:12px;font-weight:400;color:#c0cbbb}
+.below-table-exchange .chip-panel{margin:0;border:0;border-top:1px solid #6e6b4d;border-radius:0}
+@media(max-width:600px){.below-table-exchange>summary span{display:none}}
+</style><style id="layout-audit-final">
+/* Definitive order inside the green felt: board -> outside bets -> chips -> exchange -> preferences. */
+#felt{display:flex!important;flex-direction:column!important;align-items:stretch!important}
+#felt .felt-logo{order:0}
+#felt #board{order:1}
+#felt #dozens{order:2}
+#felt #outside{order:3}
+#felt .quick-chip-picker{order:4;margin:8px 0 6px!important;padding:11px 10px 16px!important;background:#102d22!important;border:1px solid #c9a668!important}
+#felt .below-table-exchange{order:5;margin:4px 0 5px!important;border:1px solid #6b7555;background:#122e24}
+#felt .table-preferences{order:6}
+#felt .odds-tools{order:7;margin-top:10px}
+#felt .betting-help-drawer{order:8}
+#felt .odds-tooltip{order:9}
+#felt .quick-chip-picker .chiprow{min-height:75px;margin:8px 0 3px}
+#felt .quick-chip-heading strong{font-size:13px}
+#felt .below-table-exchange>summary{padding:11px 14px;font-size:13px}
+#felt .below-table-exchange .chip-panel{padding:12px;background:#10291f}
+#felt .chip-shop{margin:0;background:#10291f}
+#felt .table-preferences,#felt .betting-help-drawer{margin:5px 0;border:1px solid #5b755e;border-radius:9px;background:rgba(4,25,16,.45);color:#e8d6ab}
+#felt .table-preferences>summary,#felt .betting-help-drawer>summary{padding:10px 14px;cursor:pointer;font-size:12px;font-weight:700}
+#felt .table-preferences-body{padding:8px 14px 14px;border-top:1px solid #3f5e48}
+#felt .board-display-options{display:flex;gap:10px;margin:5px 0 12px}
+#felt .covered-switch{display:flex;margin:8px 0 12px}
+#felt .table-preferences .settings{margin:8px 0}
+#felt .betting-help-drawer .note{padding:0 14px 12px;margin:0}
+.visually-collapsed-player-list{display:none!important}
+.table-turn-bar{margin:12px 0 7px}
+.bet-popup{z-index:60}
+@media(max-width:650px){#felt .quick-chip-picker .chiprow{gap:10px}#felt .below-table-exchange>summary span{display:none}}
+</style><style id="balance-exchange-layout-final">
+/* The board and its quick chips are first. Balance and exchange share the next row. */
+.balance-exchange-row{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:16px;align-items:stretch;margin:16px 0 18px}
+.balance-exchange-row>.lower{margin:0!important;padding:0!important;display:block!important;min-width:0}
+.balance-exchange-row>.lower>.control-panel{height:100%;box-sizing:border-box;margin:0!important}
+.balance-exchange-side{min-width:0;box-sizing:border-box;background:#102d24;border:1px solid #ab8d51;border-radius:14px;padding:17px;display:flex;flex-direction:column;gap:12px}
+.balance-exchange-heading{font-family:Georgia,serif;font-weight:bold;font-size:19px;color:#f1d9a5}
+.balance-exchange-side .chip-panel{display:block!important;visibility:visible!important;background:transparent!important;border:0!important;box-shadow:none!important;padding:0!important;margin:0!important}
+.balance-exchange-side .chip-shop{margin:0!important;min-width:0}
+.balance-exchange-side .shop-controls{display:flex;flex-wrap:wrap;gap:8px}
+.balance-exchange-side .shop-controls select{min-width:120px;flex:1}
+.balance-exchange-side .shop-controls input{width:66px}
+.balance-exchange-side .shop-controls button{flex:1 1 155px}
+.balance-exchange-side #inventoryInfo{overflow-wrap:anywhere;font-size:12px}
+@media(max-width:900px){.balance-exchange-row{grid-template-columns:1fr}}
+</style><style id="board-spacing-sixline-final">
+/* Keep the betting surface tight, without the large empty gap above the number grid. */
+#felt{padding-top:12px!important}
+#felt .felt-logo{margin:0 0 8px!important;line-height:1.05!important;font-size:clamp(15px,2vw,23px)!important}
+#felt .felt-logo small{margin-top:2px!important;font-size:9px!important}
+#felt .board-display-options{margin:5px 0 8px!important}
+#felt .quick-chip-picker{margin-top:8px!important}
+#felt .table-preferences{margin-top:8px!important}
+#felt .odds-tools{margin-top:8px!important}
+#felt .note{margin:8px 0 0!important;line-height:1.4}
+/* Six-line targets must remain invisible until hovered, like the other inside bets. */
+#board .inside-target.sixline{position:absolute;z-index:12;width:15px;height:15px;min-width:0;min-height:0;transform:translate(-50%,-50%);border:0!important;border-radius:50%;background:transparent!important;box-shadow:none!important;padding:0!important;cursor:pointer}
+#board .inside-target.sixline:hover,#board .inside-target.sixline:focus-visible{background:rgba(255,224,147,.92)!important;box-shadow:0 0 0 3px rgba(255,236,170,.65),0 0 13px #f9d68b!important;outline:none!important}
+#board .inside-target.sixline .bet-stack{overflow:visible;pointer-events:none}
+@media(max-width:650px){#felt{padding-top:9px!important}#board .inside-target.sixline{width:12px;height:12px}}
+</style><style id="polished-chip-exchange">
+.balance-exchange-side{gap:13px!important;padding:18px!important}
+.balance-exchange-heading{display:flex;align-items:baseline;flex-wrap:wrap;gap:7px}
+.shop-inventory-overview{background:linear-gradient(145deg,#0c231c,#12392b);border:1px solid #42644f;border-radius:12px;padding:12px}
+.shop-inventory-top{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:12px;color:#f0d69b;font-size:11px;letter-spacing:.05em}
+.shop-inventory-top span{font:12px system-ui;color:#b5c9ba;letter-spacing:0}
+.shop-owned-chips{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px 4px;justify-items:center}
+.shop-owned-item{display:flex;flex-direction:column;align-items:center;gap:5px;min-width:0}
+.shop-owned-item.empty{opacity:.46}
+.shop-owned-item .shop-display-chip{position:relative!important;inset:auto!important;display:flex!important;flex-direction:column;align-items:center;justify-content:center;flex:none!important;width:53px!important;height:53px!important;min-width:53px!important;min-height:53px!important;padding:0!important;margin:0!important;pointer-events:none;cursor:default;transform:none!important}
+.shop-owned-item .shop-display-chip .chip-anvil{pointer-events:none}
+.shop-owned-count{color:#f4d993;font-weight:800;font-size:12px;background:#091b15;border:1px solid #806c43;border-radius:20px;padding:2px 9px}
+.shop-inventory-total{font-size:12px;text-align:center;color:#c6d7c6;margin-top:12px;border-top:1px solid #385747;padding-top:10px}
+.balance-exchange-side #chipShop{background:transparent!important;border:0!important;padding:0!important;box-shadow:none!important}
+.balance-exchange-side #chipShop>label{display:flex;align-items:center;gap:8px;font-size:13px;color:#f0ddb3;font-weight:600}
+.balance-exchange-side #inventoryControls{padding-top:11px}
+.balance-exchange-side .shop-credit-balance{font-size:13px!important;color:#e3c681;background:#0b241b;border-radius:8px;padding:9px 11px;margin-bottom:11px}
+.balance-exchange-side .shop-controls{display:grid!important;grid-template-columns:minmax(0,1fr) 100px!important;gap:10px!important}
+.balance-exchange-side .shop-field{display:flex;flex-direction:column;gap:5px;font-size:11px;color:#c8d7ca}
+.balance-exchange-side .shop-field select,.balance-exchange-side .shop-field input{box-sizing:border-box;width:100%!important;min-width:0!important;height:40px;background:#102b23;border:1px solid #8c7447;border-radius:8px;color:#fff;padding:8px}
+.balance-exchange-side .shop-actions{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:11px}
+.balance-exchange-side .shop-actions button{min-height:42px;border:1px solid #b49357;border-radius:8px;background:#9c7232;color:white;font-weight:700;cursor:pointer;padding:8px}
+.balance-exchange-side .shop-actions button:last-child{background:#183b2c}
+.balance-exchange-side .shop-actions button:hover{filter:brightness(1.15)}
+.balance-exchange-side .shop-help{display:block;color:#b8c8b8;line-height:1.5;margin-top:10px}
+@media(min-width:1100px){.shop-owned-chips{grid-template-columns:repeat(6,minmax(0,1fr))}}
+@media(max-width:450px){.balance-exchange-side .shop-controls{grid-template-columns:1fr 90px!important}.shop-owned-chips{grid-template-columns:repeat(3,1fr)}}
+</style><style id="exchange-and-hover-refinement">
+.balance-exchange-heading{display:flex!important;align-items:center!important;justify-content:space-between!important;gap:10px!important;padding-bottom:7px;border-bottom:1px solid #43614c}
+.balance-exchange-heading strong{font-family:Georgia,serif;font-size:19px;color:#f2d79a;letter-spacing:.025em}
+.balance-exchange-heading .exchange-subtitle{font:11px system-ui;color:#b6c9ba;text-align:right}
+.shop-owned-chips{grid-template-columns:repeat(6,minmax(0,1fr))!important;gap:9px 2px!important}
+.shop-owned-item{min-width:0;opacity:1}
+.shop-owned-item.empty{opacity:.4}
+.shop-owned-item .shop-display-chip{width:49px!important;height:49px!important;min-width:49px!important;min-height:49px!important;overflow:visible!important;border-radius:50%!important;transform:none!important;filter:none!important}
+.shop-owned-item .shop-display-chip .chip-owned{display:block!important;position:absolute;bottom:-15px;left:50%;transform:translateX(-50%);background:#091b15;border:1px solid #bfa05c;border-radius:15px;color:#f2d998;font-size:10px;font-weight:800;padding:1px 6px;white-space:nowrap;line-height:1.2}
+.shop-inventory-overview{padding:13px 10px 21px}
+.shop-inventory-total{margin-top:20px}
+@media(max-width:500px){.shop-owned-chips{grid-template-columns:repeat(3,minmax(0,1fr))!important;row-gap:23px!important}.balance-exchange-heading{align-items:flex-start!important;flex-direction:column}}
+#board .cell.hover-covered-number{box-shadow:inset 0 0 0 3px #fff2bc,inset 0 0 24px rgba(255,217,107,.78)!important;filter:brightness(1.4)!important;position:relative;z-index:1}
+#board .cell.hover-covered-number .board-number{filter:drop-shadow(0 0 5px #ffe19a)}
+/* Keep transparent betting hit targets above previewed squares. */
+#board .inside-target{z-index:6!important}
+#board .inside-target:hover,#board .inside-target:focus-visible{z-index:8!important}
+</style><style id="exact-miniature-chip-copy">
+/* Identical chip DOM, colours, anvil and lettering as the betting selector.
+   Scale the COMPLETE chip rather than reconstructing its artwork. */
+.shop-owned-item{gap:0!important;overflow:visible!important;opacity:1!important}
+.shop-owned-item.empty{opacity:1!important}
+.shop-owned-chips{gap:5px 0!important;overflow:visible!important}
+.shop-chip-scale{display:flex;align-items:center;justify-content:center;width:60px;height:75px;overflow:visible;flex:none}
+.shop-chip-scale>.chip{transform:scale(.78)!important;transform-origin:center center!important;flex:none!important;margin:0!important;opacity:1!important;filter:none!important;cursor:default!important;pointer-events:none!important}
+.shop-chip-scale>.chip:disabled{opacity:1!important;filter:none!important}
+.shop-chip-scale>.chip .chip-owned{display:block!important}
+@media(max-width:540px){.shop-owned-chips{grid-template-columns:repeat(3,minmax(0,1fr))!important;row-gap:10px!important}}
+</style><style id="lab-number-frequency-polish">
+.lab-frequency-controls{display:flex;justify-content:flex-end;margin:12px 0}
+.lab-frequency-controls label{display:flex;gap:9px;align-items:center;font-size:12px;color:#e4c78f}
+.lab-frequency-controls select{background:#15382b;color:#fff;border:1px solid #9b7b48;border-radius:7px;padding:7px}
+.lab-number-stats{display:grid!important;grid-template-columns:repeat(auto-fit,minmax(92px,1fr));gap:8px}
+.lab-number-stat{display:flex!important;flex-direction:column;align-items:center;gap:3px;padding:10px 5px!important;border-radius:8px;text-align:center}
+.lab-number-stat strong{font-size:21px}.lab-number-stat span{font-size:12px;font-weight:700}.lab-number-stat small{font-size:10px}
+</style><style id="individual-chip-shop-buttons">
+.shop-owned-chips{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:12px 8px!important}
+.shop-owned-item{display:flex!important;flex-direction:column!important;align-items:center!important;gap:7px!important;min-width:0}
+.shop-chip-actions{display:flex;gap:4px;justify-content:center;width:100%}
+.shop-chip-actions button{border-radius:6px;border:1px solid #b7975e;background:#9c7234;color:#fff3d5;font-weight:700;font-size:11px;padding:6px 10px;cursor:pointer}
+.shop-chip-actions .shop-sell-one{background:#18382e}
+.shop-chip-actions button:disabled{opacity:.4;cursor:not-allowed}
+.shop-quantity-row{display:flex;align-items:center;gap:10px;justify-content:center;margin:12px 0 6px;color:#e4d2ac;font-size:12px}
+.shop-quantity-row input{width:75px;background:#102c22;border:1px solid #a98a56;border-radius:7px;padding:8px;color:white}
+@media(max-width:450px){.shop-owned-chips{grid-template-columns:repeat(2,minmax(0,1fr))!important}}
+</style><style>.chip-player-name{color:#f5d28b;font-weight:800}.quick-chip-heading strong{display:flex;flex-wrap:wrap;gap:7px;align-items:center}</style><style id="prominent-player-turn-wheel">
+.active-player-banner{display:flex;flex-direction:column;align-items:center;text-align:center;gap:5px;margin:0 0 14px;padding:16px 14px;background:linear-gradient(135deg,#514017,#97702c 48%,#514017);border:3px solid #f6d88c;border-radius:13px;box-shadow:0 0 0 3px rgba(22,35,23,.8),0 4px 20px rgba(0,0,0,.25);color:#fff8df}
+.active-player-caption{font-size:12px;font-weight:900;letter-spacing:2px;color:#fff0b8}
+.active-player-banner strong{font-size:clamp(28px,3.5vw,43px);line-height:1.1;text-shadow:0 2px 5px #31220e;overflow-wrap:anywhere}
+.active-player-warning{font-size:12px;font-weight:700;color:#fff5d6}
+.active-player-banner.cpu-seat{background:linear-gradient(135deg,#183f55,#276a80,#183f55);border-color:#9cd9ec}
+.quick-chip-heading .chip-player-name{font-size:16px;color:#ffe5a4}
+.wheel-panel .table-turn-bar{margin:13px 0 4px;padding:13px 12px;display:flex;flex-direction:column;align-items:stretch;text-align:center;background:linear-gradient(135deg,#214b38,#102c24);border:2px solid #d2ac66}
+.wheel-panel .table-turn-bar strong{font-size:20px;color:#ffe3a0}
+.wheel-panel .table-turn-bar #quickNextTurn{font-size:15px;padding:14px 12px;width:100%;min-height:48px}
+@media(max-width:600px){.active-player-banner{padding:13px 8px}.active-player-warning{font-size:11px}}
+</style><style id="shop-action-availability">.shop-chip-actions .shop-buy-one:not(:disabled){background:linear-gradient(180deg,#f6d77e,#c18a29)!important;color:#201604!important;border:1px solid #ffe8a4!important;box-shadow:0 0 0 1px #a9782d,0 2px 9px #e7b94c55!important;font-weight:900!important;opacity:1!important}.shop-chip-actions .shop-sell-one:not(:disabled){opacity:1!important}.shop-chip-actions{min-height:30px}.wallet-edit-controls{margin-top:12px}</style><style id="exchange-and-turn-refinement">
+.shop-chip-actions button:disabled{opacity:.34!important;filter:grayscale(.8)!important;box-shadow:none!important;cursor:not-allowed!important}
+.shop-chip-actions button:not(:disabled){filter:none!important}
+.shop-owned-item.empty{opacity:1!important}
+.active-player-banner{padding:9px 14px!important;margin:0 0 8px!important;gap:2px!important;border-width:2px!important;box-shadow:0 2px 9px #0005!important;flex-direction:row!important;justify-content:center!important;flex-wrap:wrap!important;column-gap:12px!important}
+.active-player-caption{font-size:11px!important;letter-spacing:1px!important}
+.active-player-banner strong{font-size:clamp(19px,2.4vw,27px)!important;text-shadow:none!important}
+.quick-chip-heading .chip-player-name{display:none!important}
+.balance-primary{background:linear-gradient(120deg,#284a32,#102c22)!important;border:2px solid #efc56e!important;box-shadow:0 0 15px #dca84c33}
+.balance-primary small{font-weight:900!important;color:#ffdf94!important;letter-spacing:.7px}
+.balance-primary strong{font-size:clamp(26px,3vw,37px)!important;color:#fff0b7!important;font-variant-numeric:tabular-nums}
+.exchange-credit-spotlight{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:10px 0 12px;padding:10px 12px;border:1px solid #e2b961;border-radius:9px;background:#254735;color:#f8df9d;font-size:12px;font-weight:900;letter-spacing:.5px}
+.exchange-credit-spotlight strong{font-size:clamp(18px,2vw,26px);color:#fff4c5;font-variant-numeric:tabular-nums}
+</style></head><body>
+<header><div><div class="brand brand-with-logo"><span id="headerAnvil"></span><span>ANVIL ROULETTE</span></div><div class="eyebrow">ROYAL ROULETTE · V3</div></div><div class="head-right"><button class="btn small" id="tutorialOpen" type="button">📖 HOW TO BET</button><span class="tag">● PRIVATE TABLE · <span id="seatCount">4 / 8 SEATS</span></span><span class="tag">VIRTUAL CREDITS ONLY</span></div></header>
+<main><section class="stats"><div class="stat"><small>TABLE STATUS</small><strong class="green" id="status">BETTING OPEN</strong></div><div class="stat"><small>COUNTDOWN</small><strong id="timer">00:30</strong></div><div class="stat"><small>TABLE BETS</small><strong id="pot">0</strong></div><div class="stat"><small>YOUR BET</small><strong id="betTop">0</strong></div><div class="stat"><small>LAST WINNER</small><strong id="last">—</strong></div><div class="stat"><small>MODE</small><strong id="modeTop">DEALER</strong></div></section>
+<section class="game"><div class="panel wheel-panel"><div class="wheel-wrap"><span aria-hidden="true" class="pointer">▼</span><canvas aria-label="Animated European roulette wheel with 37 aligned pockets" height="700" id="wheel" width="700"></canvas></div><div aria-live="polite" class="result" id="result">Select a chip and place your bets</div><div class="buttons"><button class="btn primary" id="spin">▶ SPIN WHEEL</button><button class="btn" id="betToggle">CLOSE BETTING</button></div><section class="table-turn-bar" id="tableTurnBar"><div><strong id="quickTurnName">Your turn</strong><span id="quickTurnHint">Place your chips, then pass to the next player</span></div><button class="btn primary" id="quickNextTurn" type="button">END TURN → NEXT PLAYER</button></section><div class="muted" style="text-align:center;margin-top:12px">European roulette · single zero · one shared result</div></div><div class="felt" id="felt"><div class="felt-logo"><span id="feltAnvil"></span><small>ANVIL ROULETTE</small></div><div class="board" id="board"></div><div class="dozens" id="dozens"></div><div class="six" id="outside"></div><div class="quick-chip-picker"><div class="active-player-banner" id="activePlayerBanner"><span class="active-player-caption">BETTING FOR</span><strong id="activePlayerBigName">Player 1</strong></div><div class="quick-chip-heading"><strong>CHOOSE YOUR BETTING CHIP</strong><span>Available chips update live</span></div><div class="chiprow" id="chips"></div></div><details class="table-preferences"><summary>⚙ Table appearance, sound &amp; bet display</summary><div class="table-preferences-body"><div class="board-display-options"><label for="boardStyle">Board appearance</label><select id="boardStyle"><option value="classic">Classic · horizontal numbers</option><option value="large">Casino · larger rotated numbers</option></select><span class="muted">Right-click a position to clear all your chips there.</span></div><label class="covered-switch"><input id="highlightCovered" type="checkbox" checked/> Highlight numbers covered by bets on hover</label><div class="settings"><label for="chipView">Bet display</label><select id="chipView"><option value="stack">Physical stacks</option><option value="compact">Compact totals</option></select><label for="sound">Sound</label><select id="sound"><option value="off">Off</option><option selected="" value="on">On</option></select></div></div></details><div class="odds-tools"><button aria-pressed="false" class="btn small" id="oddsHelp" type="button">ⓘ LEARN BET ODDS: OFF</button><span class="muted">Turn on, then hover or tap a betting space. Placing a chip turns it off.</span></div><div class="odds-tooltip" hidden="" id="oddsTooltip" role="status"></div><p class="note">Choose a chip, then click a number, a split line, a corner intersection, or the bottom border of a three-number column for a street bet, or the junction between two streets for a six-line bet. Right-click any betting position to clear all of your chips there (before the spin). Choose a player turn to place their bets. AI opponents are optional and off by default.</p></div></section>
+<button aria-expanded="true" class="bet-popup-toggle" id="playerBetPopupToggle" type="button">👥 Player bets <span id="playerBetPopupTotal">0</span></button><aside aria-label="Live player bet totals" class="bet-popup" id="playerBetPopup"><div class="bet-popup-title"><strong>Players · live bets</strong><button aria-label="Close player bets" id="playerBetPopupClose" type="button">×</button></div><div id="playerBetPopupRows"></div></aside><section class="table-player-sidebar visually-collapsed-player-list"><div class="table-sidebar-heading"><strong>👥 TABLE PLAYERS &amp; BETS</strong><span id="tableSidebarTotal">0 total</span></div><div class="table-player-rows" id="tablePlayerRows"></div></section><section class="balance-exchange-row"><section class="lower"><div class="panel control-panel"><div class="section-head"><h2>Your balance</h2><span class="muted">Virtual credits</span></div><div class="balances"><div class="balance-box balance-primary"><small>CREDITS AVAILABLE TO SPEND</small><strong id="balance">250,000</strong></div><div class="balance-box"><small>WALLET</small><strong id="wallet">0</strong></div><div class="balance-box"><small>CURRENT BET</small><strong id="bet">0</strong></div><div class="balance-box"><small>LAST RETURN</small><strong id="lastReturn">0</strong></div></div><div class="buttons"><button class="btn gold" id="buy">BUY IN</button><button class="btn" id="return">RETURN CHIPS</button><button class="btn" id="cash">CASH OUT</button><button class="btn" id="undo">UNDO</button><button class="btn" id="clear">CLEAR</button><button class="btn" id="rebet">REBET</button><button class="btn" id="double">2× BET</button></div></div></section><section class="balance-exchange-side"><div class="balance-exchange-heading"><strong>CHIP EXCHANGE</strong><span class="exchange-subtitle">Buy, return &amp; manage your chips</span></div><div class="panel chip-panel"><div class="shop-inventory-overview"><div class="shop-inventory-top"><strong>YOUR CHIP COLLECTION</strong><span id="shopInventoryOwner">Current player</span></div><div class="exchange-credit-spotlight">CREDITS AVAILABLE <strong id="shopCreditSpotlight">0</strong></div><div class="shop-owned-chips" id="shopOwnedChips" aria-live="polite"></div><div class="shop-inventory-total" id="shopInventoryTotal"></div></div><div class="chip-shop" id="chipShop"><label><input id="inventoryMode" type="checkbox"/> Use physical chip inventory (optional)</label><div hidden="" id="inventoryControls"><div id="inventoryInfo" class="shop-credit-balance"></div><div class="shop-quantity-row"><label for="shopQuantity">Quantity per click</label><input aria-label="Number of chips per transaction" id="shopQuantity" max="1000" min="1" type="number" value="1"/></div><small class="shop-help">Exchange credits for chips or return unused chips between spins. Winning payouts are split into the largest chip denominations first.</small></div></div></div></section></section>
+<details class="game-extras"><summary>⚒ Career &amp; loan progress<small>Career objectives and repayment</small></summary><section class="panel career-panel" id="careerPanel"><div class="section-head"><h2>⚒ Career mode · The Million-Credit Debt</h2><span class="muted" id="gameModeLabel">FREEPLAY</span></div><p class="muted" id="careerIntro">Choose Career or Freeplay from the welcome screen. Career starts with 20,000 chips and a 1,000,000-credit virtual loan to repay.</p><div class="balances"><div class="balance-box"><small>LOAN REMAINING</small><strong id="loanRemaining">—</strong></div><div class="balance-box"><small>REPAID</small><strong id="loanRepaid">—</strong></div><div class="balance-box"><small>CAREER CHALLENGES</small><strong id="careerChallengeCount">—</strong></div></div><div class="career-progress" id="careerProgress"><div id="careerProgressBar"></div></div><div class="career-challenges" id="careerChallenges"></div><div class="buttons" style="margin-top:12px"><button class="btn small" id="newCareer">START NEW CAREER</button></div><p class="muted">Career cash-outs repay the virtual loan. No top-ups, dealer balance edits, or balance resets. All credits are fictional.</p></section></details><details class="game-extras"><summary>⚙ Settings &amp; save games<small>Currency, table preferences, save and load</small></summary><section class="panel save-panel"><div class="section-head"><h2>⚙ Table settings &amp; saved games</h2><span class="muted">Virtual money only · saved locally or exported</span></div><div class="save-grid"><label>Currency display<select id="currency"><option selected="" value="none">No currency (numbers only)</option><option value="EUR">Euro (€)</option><option value="USD">US dollar ($)</option><option value="GBP">Pound (£)</option><option value="JPY">Yen (¥)</option><option value="CAD">Canadian dollar (C$)</option><option value="AUD">Australian dollar (A$)</option><option value="INR">Rupee (₹)</option></select></label><label>Per betting space / number limit<select id="spaceLimit"><option selected="" value="off">Off — unlimited</option><option value="on">On — 200,000 maximum per player per space</option></select></label></div><div class="buttons"><button class="btn gold" id="saveGame">💾 SAVE GAME</button><button class="btn" id="loadGame">↩ LOAD SAVED GAME</button><button class="btn" id="exportGame">⬇ EXPORT SAVE FILE</button><button class="btn" id="importGame">⬆ IMPORT SAVE FILE</button><input accept=".json,application/json" hidden="" id="importFile" type="file"/></div><p class="muted">Save Game stores the complete table in this browser. Export a JSON file to move a saved game to another device. Save or export between spins.</p></section></details><details class="game-extras" open=""><summary>👥 Player &amp; turn settings<small>Player count, names and AI</small></summary><section class="panel turn-panel"><div class="section-head"><h2>Players &amp; round-robin turns</h2><span class="muted">Local pass-and-play · one screen</span></div><div class="turn-grid"><label>Number of players<select aria-label="Number of players" id="seatSelect"><option selected="" value="1">1 player</option><option value="2">2 players</option><option value="3">3 players</option><option value="4">4 players</option><option value="5">5 players</option><option value="6">6 players</option><option value="7">7 players</option><option value="8">8 players</option></select></label><select hidden="" id="aiEnabled"><option value="off">Off</option><option value="on">On</option></select><span class="muted">Set each seat to Human or CPU in the player cards or sidebar. CPU seats act only on their turns.</span><label>Turn system<select id="turnMode"><option selected="" value="round">Round robin</option><option value="free">Free betting (select player)</option></select></label><label>Active player<select id="activePlayer"><option value="0">Player 1</option><option value="1">Player 2</option><option value="2">Player 3</option><option value="3">Player 4</option></select></label><button class="btn primary" id="nextTurn">END TURN →</button><button class="btn" id="newTurns">NEW TURN ORDER</button></div><p aria-live="polite" class="turn-current" id="turnStatus">Player 1's turn</p><p class="muted">Edit player names in the cards below. With AI off, only the selected player places bets. Each player's credits and bets stay separate. Dealer can spin when ready.</p></section></details><section class="players" id="players"></section>
+<details class="game-extras"><summary>🏆 Achievements<small>Trophies and secret bonuses</small></summary><section class="achievement-panel" id="achievements"><div class="section-head"><h2>🏆 Achievements &amp; trophies</h2><span class="muted">Cosmetic rewards · no betting advantages</span></div><div class="achievement-toolbar"><label for="achievementPlayer">View trophies for </label><select aria-label="View player achievements" id="achievementPlayer"></select><span class="achievement-summary" id="achievementSummary">0 / 25 unlocked</span><button class="btn small" id="achievementSound" type="button">🔔 Achievement sound: ON</button></div><div class="achievement-grid" id="achievementGrid"></div><p class="muted" style="margin-top:12px">Trophies are earned individually by each seat. Save Game also saves trophies. Reset Demo clears trophies. The game uses virtual credits only.</p></section></details><details class="game-extras"><summary>🎩 Dealer &amp; activity<small>Dealer tools, results and logs</small></summary><section class="footer-panels"><div class="panel dealer"><div class="section-head"><h2>Dealer control panel</h2><span class="muted">Local demo controls</span></div><div class="dealer-controls"><label for="mode">Game mode</label><select id="mode"><option value="dealer">Dealer-controlled</option><option value="auto">Automatic rounds</option></select><label for="roundSeconds">Betting timer</label><select id="roundSeconds"><option value="15">15 seconds</option><option selected="" value="30">30 seconds</option><option value="45">45 seconds</option><option value="60">60 seconds</option></select></div><div class="buttons"><button class="btn primary small" id="openBet">OPEN BETTING</button><button class="btn small" id="closeBet">CLOSE BETTING</button><button class="btn gold small" id="dealerSpin">SPIN NOW</button><button class="btn small" id="resetDemo">RESET DEMO</button></div><div class="dealer-controls"><label for="playerSelect">Adjust player</label><select id="playerSelect"><option value="0">You</option><option value="1">Player 2</option><option value="2">Player 3</option><option value="3">Player 4</option></select><input aria-label="Virtual credit adjustment" id="adjustAmount" min="1000" step="1000" type="number" value="10000"/><button class="btn small" id="creditPlayer">CREDIT</button><button class="btn small" id="debitPlayer">DEBIT</button></div><div class="dealer-controls wallet-edit-controls"><label for="walletAdjustAmount">Edit wallet (Player 1)</label><input aria-label="Wallet credit adjustment" id="walletAdjustAmount" min="1000" step="1000" type="number" value="10000"/><button class="btn small" id="creditWallet">ADD TO WALLET</button><button class="btn small" id="debitWallet">REMOVE FROM WALLET</button></div><p class="muted">Dealer adjustments affect demo chip balances and are logged. No payments or real withdrawals.</p></div><div class="panel activity"><div class="section-head"><h2>Results &amp; activity</h2><span class="muted">Latest 12 rounds</span></div><div class="history" id="history"></div><ul aria-live="polite" class="log" id="log"></ul></div></section></details>
+<details class="game-extras"><summary>🔬 Roulette Odds Lab<small>Bet simulation, roll data and probability tables</small></summary><section aria-labelledby="labHeading" class="panel odds-lab" id="oddsLab"><div class="section-head"><h2 id="labHeading">🔬 Roulette Odds Lab</h2><span class="muted">Independent simulator · no effect on the game</span></div><p class="muted">Test a virtual bet across randomly generated European single-zero spins. This tool never changes player balances, saves, achievements, or career progress.</p><div class="lab-controls"><label>Simulation source<select id="labSource"><option selected="" value="board">Current table bets (selected player)</option><option value="single">Single example bet</option></select><span aria-live="polite" class="lab-board-status" id="labBoardStatus"></span></label><label>Bet type<select id="labBetType"><option value="straight">Straight-up (1 number)</option><option value="split">Split (2 numbers)</option><option value="corner">Corner (4 numbers)</option><option value="street">Street (3 numbers)</option><option value="sixline">Six line (6 numbers)</option><option value="dozen">Dozen (12 numbers)</option><option value="column">Column (12 numbers)</option><option value="red">Red</option><option value="black">Black</option><option value="even">Even</option><option value="odd">Odd</option><option value="low">1–18</option><option value="high">19–36</option></select></label><label>Choose bet<select id="labBetChoice"></select></label><label>Virtual stake per spin<input id="labStake" max="100000000" min="1" step="1000" type="number" value="1000"/></label><label>Spins to simulate<select id="labSpins"><option value="100">100 spins</option><option selected="" value="1000">1,000 spins</option><option value="10000">10,000 spins</option><option value="100000">100,000 spins</option></select></label><button class="btn primary" id="labRun" type="button">▶ SIMULATE BET</button><button class="btn" id="labRollRun" type="button">🎲 SIMULATE ALL 37 NUMBERS</button><button class="btn" id="labClear" type="button">CLEAR RESULTS</button></div><div aria-live="polite" class="lab-summary" id="labSummary"><p class="muted">Choose a bet and press Simulate Bet to see its hit rate and returns.</p></div><div class="lab-roll-output" hidden="" id="labRollOutput"></div><div class="lab-chart" hidden="" id="labChart"><div class="lab-chart-title">Theoretical vs simulated hit rate</div><div class="lab-chart-row"><span>Expected</span><div class="lab-track"><div class="lab-fill expected" id="labExpectedBar"></div></div><strong id="labExpectedText"></strong></div><div class="lab-chart-row"><span>Simulated</span><div class="lab-track"><div class="lab-fill actual" id="labActualBar"></div></div><strong id="labActualText"></strong></div></div><h3>European roulette — bet type breakdown</h3><p class="muted">All payouts are profit-to-stake (e.g. 35:1 pays 36× the stake back including the original chip). Odds assume a fair 37-pocket wheel. The expected house edge is 2.70% for every standard bet listed here.</p><div class="lab-table-wrap"><table class="lab-table"><thead><tr><th>Bet type</th><th>Numbers covered</th><th>Payout</th><th>Hit chance</th><th>About once every</th></tr></thead><tbody id="labBreakdown"></tbody></table></div><p class="muted">Simulation results vary randomly. A higher observed win rate in a short sample does not change the odds of the next spin. These are virtual credits only.</p></section></details></main><div aria-labelledby="bustTitle" aria-modal="true" class="bust-back" id="bustBack" role="dialog"><div class="bust-card"><div class="bust-icon">💀</div><div class="eyebrow">GAME OVER · BANKRUPT</div><h2 id="bustTitle">YOU'RE BUST!</h2><p id="bustMessage"></p><p class="muted" id="bustDetail"></p><div class="buttons" style="justify-content:center"><button class="btn primary" id="bustRestart">RESTART GAME</button><button class="btn" id="bustClose">VIEW TABLE</button></div></div></div><div class="setup-back" id="setupBack"><div class="setup-card"><div class="eyebrow">WELCOME TO ANVIL ROULETTE</div><h2>Choose your game</h2><label>Play mode<select id="setupGameMode"><option selected="" value="freeplay">Freeplay — custom balances &amp; multiplayer</option><option value="career">Career — start with 20K, repay 1M</option></select></label><h3 id="setupPlayerHeading">How many players?</h3><p class="muted">Set up your table before playing. You can change these later.</p><label>Players<select id="setupPlayers"><option selected="" value="1">1 player</option><option value="2">2 players</option><option value="3">3 players</option><option value="4">4 players</option><option value="5">5 players</option><option value="6">6 players</option><option value="7">7 players</option><option value="8">8 players</option></select></label><label>Computer opponents<select id="setupAI"><option selected="" value="off">Off — human players only</option><option value="on">On — AI opponents</option></select></label><div aria-label="Player names" class="setup-names" id="setupNames"></div><p class="muted" style="font-size:12px">Names are optional. Unnamed humans become Player 1, Player 2, etc.; unnamed computer opponents become AI 1, AI 2, etc.</p><button class="btn primary" id="startTable">START PLAYING</button><button class="btn" id="setupLoad">LOAD MY SAVED GAME</button><p class="muted" style="font-size:12px">Sound is on by default (your browser may require a click before audio plays).</p></div></div><div class="tutorial-back" hidden="" id="tutorialBack"><section aria-labelledby="tutorialHeading" aria-modal="true" class="tutorial-card" role="dialog"><div class="tutorial-top"><h2 id="tutorialHeading">📖 How to Bet — Anvil Roulette</h2><button class="btn small" id="tutorialClose" type="button">✕ CLOSE</button></div><p>European single-zero roulette: 37 equally likely results (0–36). Select a chip, then click the relevant betting area. Payouts below are <b>net odds</b>; your original stake is also returned on a win.</p><div class="tutorial-grid"><article><h3>🎯 Straight-up · 35:1</h3><p>Click the centre of any single number, including 0. Covers 1 number. Hit chance: <b>1/37 (2.70%)</b>.</p></article><article><h3>↔ Split · 17:1</h3><p>Click the line shared by two adjacent number squares. Covers 2 numbers. Hit chance: <b>2/37 (5.41%)</b>.</p></article><article><h3>▦ Street · 11:1</h3><p>Click the bottom edge of a three-number column (e.g. 1–2–3). Covers 3 numbers. Hit chance: <b>3/37 (8.11%)</b>.</p></article><article><h3>✣ Corner · 8:1</h3><p>Click where four number squares meet. Covers 4 numbers. Hit chance: <b>4/37 (10.81%)</b>.</p></article><article><h3>➕ Six-line · 5:1</h3><p>Covers two adjacent streets, 6 numbers. Hit chance: <b>6/37 (16.22%)</b>. Click the junction on the bottom border between two neighbouring three-number streets to place a six-line bet.</p></article><article><h3>12 Dozen / Column · 2:1</h3><p>Click a dozen below the grid, or a 2-to-1 column box at the end of a number row. Covers 12 numbers. Hit chance: <b>12/37 (32.43%)</b>.</p></article><article><h3>🔴 Red / Black · 1:1</h3><p>Click red or black below the grid. Each covers 18 numbers. Hit chance: <b>18/37 (48.65%)</b>.</p></article><article><h3>Even / Odd / Low / High · 1:1</h3><p>Click the corresponding box. Low means 1–18; High means 19–36. Each covers 18 numbers, <b>18/37 (48.65%)</b>.</p></article></div><div class="tutorial-tip"><b>Example:</b> A 1,000-credit street bet on 1–2–3 returns <b>12,000 credits total</b> if 1, 2 or 3 lands (11,000 profit + 1,000 original stake). <b>Zero</b> loses on all standard even-money bets. Right-click a betting position before the spin to clear all your chips there. The optional Odds Lab below the game is separate and never changes your balance.</div></section></div><div class="modal-back" id="modalBack"><div aria-labelledby="modalTitle" aria-modal="true" class="modal" role="dialog"><h2 id="modalTitle">Buy chips</h2><p class="muted" id="modalDesc"></p><label for="amount">Virtual credit amount (multiples of 1,000)</label><input id="amount" min="1000" step="1000" type="number" value="50000"/><div class="buttons"><button class="btn primary" id="confirm">CONFIRM</button><button class="btn" id="cancel">CANCEL</button></div></div></div><div class="toast" id="toast" role="status"></div><div aria-describedby="roundSummary" aria-labelledby="roundHeading" aria-modal="true" class="round-overlay" id="roundOverlay" role="dialog"><div class="round-card" id="roundCard"><div class="eyebrow">ROUND RESULT</div><div style="margin-top:14px"><span class="round-number" id="roundNumber">0</span></div><h2 id="roundHeading">ROUND COMPLETE</h2><p class="muted" id="roundSummary"></p><div class="round-details"><div class="round-detail"><small>YOUR TOTAL BET</small><strong id="roundStake">0</strong></div><div class="round-detail"><small>TOTAL RETURN</small><strong id="roundReturn">0</strong></div></div><div class="round-net" id="roundNet">NET 0</div><div aria-label="Results for all players" class="round-players" id="roundPlayers"></div><button class="btn primary" id="roundDismiss" style="min-width:180px">CONTINUE</button><div class="settings" style="margin-top:15px"><label><input id="voiceResults" type="checkbox"/> Announce winners by name</label></div></div></div>
+<div aria-live="polite" class="achievement-pop" id="achievementPop" role="status"></div>
+<script>
+// Original user-supplied anvil path and mask preserved, recoloured red.
+const ANVIL_LOGO_SVG = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 430 260" role="img" aria-label="Red anvil logo">\n  <defs>\n    <mask id="anvil-cut-LOGOID">\n      <rect width="430" height="260" fill="white"/>\n      <circle cx="236" cy="91" r="31" fill="black"/>\n      <rect x="229" y="110" width="15" height="101" fill="black"/>\n    </mask>\n  </defs>\n  <!-- Original anvil geometry, recoloured red. -->\n  <g fill="#D62F3C" mask="url(#anvil-cut-LOGOID)">\n    <path d="M24 16 H320 V29 Q320 40 329 40 Q337 40 337 29 V16 H404 V67 H375 C338 67 312 78 298 105 C282 112 271 127 270 147 C269 167 285 181 324 193 V219 H328 V223 H136 V196 C169 188 191 170 191 147 C191 124 170 109 143 108 H126 V89 C77 75 42 53 24 25 Z"/>\n    <path d="M136 194 H328 V223 H136 Z"/>\n  </g>\n  <!-- Poker chip centered in the anvil\'s original circular cutout. -->\n  <g transform="translate(236 91)">\n    <circle r="29.5" fill="#141414" stroke="#F5D17C" stroke-width="2"/>\n    <g fill="#F6F0E6">\n      <path d="M-5 -29 H5 V-20 H-5Z"/>\n      <path d="M-5 -29 H5 V-20 H-5Z" transform="rotate(45)"/>\n      <path d="M-5 -29 H5 V-20 H-5Z" transform="rotate(90)"/>\n      <path d="M-5 -29 H5 V-20 H-5Z" transform="rotate(135)"/>\n      <path d="M-5 -29 H5 V-20 H-5Z" transform="rotate(180)"/>\n      <path d="M-5 -29 H5 V-20 H-5Z" transform="rotate(225)"/>\n      <path d="M-5 -29 H5 V-20 H-5Z" transform="rotate(270)"/>\n      <path d="M-5 -29 H5 V-20 H-5Z" transform="rotate(315)"/>\n    </g>\n    <circle r="19" fill="#B71F2B" stroke="#F5D17C" stroke-width="2"/>\n    <circle r="13" fill="none" stroke="#F5D17C" stroke-width="1" stroke-dasharray="2 2"/>\n    <circle r="4.5" fill="#F5D17C"/>\n  </g>\n</svg>';
+let anvilInstance=0;
+function anvilLogo(){return ANVIL_LOGO_SVG.replaceAll('LOGOID',String(++anvilInstance));}
+function plainAnvilLogo(){
+  // Keep the original user-supplied anvil geometry and cutout; omit the added poker-chip artwork.
+  return ANVIL_LOGO_SVG.replace(/\s*<!-- Poker chip centered in the anvil's original circular cutout\. -->[\s\S]*?(?=<\/svg>)/, '')
+    .replaceAll('LOGOID',String(++anvilInstance))
+    .replace('fill="#D62F3C"', 'fill="#FFFFFF"')
+    .replace('aria-label="Red anvil logo"','aria-label="White anvil logo"');
+}
+
+document.getElementById('headerAnvil').innerHTML=anvilLogo();
+document.getElementById('feltAnvil').innerHTML=anvilLogo();
+
+(()=>{'use strict';
+const $=id=>document.getElementById(id),fmt=n=>{const v=Math.round(n).toLocaleString('en-US');const currency=document.getElementById('currency')?.value||'none';return currency==='none'?v:currency==='EUR'?'€'+v:currency==='USD'?'$'+v:currency==='GBP'?'£'+v:currency==='JPY'?'¥'+v:currency==='INR'?'₹'+v:currency==='CAD'?'C$'+v:currency==='AUD'?'A$'+v:v+' '+currency};
+const EURO=[0,32,15,19,4,21,2,25,17,34,6,27,13,36,11,30,8,23,10,5,24,16,33,1,20,14,31,9,22,18,29,7,28,12,35,3,26];
+const RED=new Set([1,3,5,7,9,12,14,16,18,19,21,23,25,27,30,32,34,36]);
+const DENOMS=[{v:1000,t:'1K',c:'#31383a',ink:'#1b2424'},{v:5000,t:'5K',c:'#16835d',ink:'#211909'},{v:10000,t:'10K',c:'#238ecb',ink:'#fff'},{v:25000,t:'25K',c:'#7948a9',ink:'#fff'},{v:50000,t:'50K',c:'#c69a35',ink:'#fff'},{v:100000,t:'100K',c:'#cf4552',ink:'#fff'}];
+const SEAT_COLORS=['#e0ad43','#238ecb','#8854c9','#cf4552','#21a27c','#d28a38','#cb5aa8','#8e9fbb'];
+const makePlayer=i=>({name:i===0?'Player 1 (YOU)':`Player ${i+1}`,balance:50000,color:SEAT_COLORS[i],bets:[],achievements:[],stats:{rounds:0,wins:0,streak:0,lossStreak:0,bestStreak:0,straightWins:0,usedChips:[],comebacks:0,number7:0,zeroWins:0,redWins:0,blackWins:0,evenWins:0,oddWins:0,lowWins:0,highWins:0,dozenWins:0,columnWins:0,straightWinsTotal:0,breakEven:0,winningNumbers:[],totalPayout:0,bigPayouts:0,chipBets:0,distinctWinningTypes:[],largestNet:0,greenBets:0}});
+const basePlayers=(count=1)=>Array.from({length:count},(_,i)=>makePlayer(i));
+let activePlayer=0,turnsTaken=new Set(),aiEnabled=false;
+let bustedPlayers=new Set(),bustPromptShown=false;
+let labLastBetsByPlayer={};let players=basePlayers(),wallet=0,selected=5000,previous=[],history=[],logs=[],mode='dealer',bettingOpen=true,spinning=false,seconds=30,autoWait=0,rotation=0,ballAngle=-Math.PI/2,ballRadius=282,ballVisible=true,modalType='buy',spinFrame=null,simulatedThisRound=false,toastTimer=null,audioCtx=null;
+let oddsHelpEnabled=false,gameMode='freeplay',careerDebt=1000000,careerRepaid=0,careerFinished=false;
+const CAREER_CHALLENGES=[
+ {name:'First Steps',desc:'Finish 5 betting rounds',goal:5,value:p=>p.stats.rounds},
+ {name:'Learning the Wheel',desc:'Try 5 different betting spaces',goal:5,value:p=>(p.stats.betTypes||[]).length},
+ {name:'First Breakthrough',desc:'Win 3 profitable rounds',goal:3,value:p=>p.stats.wins},
+ {name:'On a Roll',desc:'Win 2 rounds in a row',goal:2,value:p=>p.stats.bestStreak},
+ {name:'Precision Play',desc:'Win a straight-up number bet',goal:1,value:p=>p.stats.straightWins},
+ {name:'Chip Explorer',desc:'Use 4 different chip denominations',goal:4,value:p=>p.stats.usedChips.length},
+ {name:'Building Momentum',desc:'Repay 100,000 credits',goal:100000,value:()=>careerRepaid},
+ {name:'Halfway Home',desc:'Repay 500,000 credits',goal:500000,value:()=>careerRepaid},
+ {name:'Seasoned Player',desc:'Play 50 betting rounds',goal:50,value:p=>p.stats.rounds},
+ {name:'Debt Free',desc:'Repay the full 1,000,000-credit loan',goal:1000000,value:()=>careerRepaid}
+];
+function renderCareer(){const career=gameMode==='career',p=players[0];$('gameModeLabel').textContent=career?'CAREER':'FREEPLAY';$('careerIntro').textContent=career?'Start: 20,000 chips · Original loan: 1,000,000 credits · Cash out unused chips to repay the debt. No free balance edits.':'Freeplay lets you customise the table and balances. Career mode is a separate single-player challenge.';$('loanRemaining').textContent=career?fmt(careerDebt):'—';$('loanRepaid').textContent=career?fmt(careerRepaid):'—';$('careerChallengeCount').textContent=career?CAREER_CHALLENGES.filter(c=>c.value(p)>=c.goal).length+' / '+CAREER_CHALLENGES.length:'—';$('careerProgressBar').style.width=career?Math.min(100,careerRepaid/10000)+'%':'0%';$('careerChallenges').replaceChildren();if(career){for(const c of CAREER_CHALLENGES){const done=c.value(p)>=c.goal,t=document.createElement('div');t.className='career-task'+(done?' complete':'');t.textContent=(done?'✓ ':'○ ')+c.name+' — '+c.desc+' ('+Math.min(c.goal,c.value(p)).toLocaleString()+'/'+c.goal.toLocaleString()+')';$('careerChallenges').append(t)}}$('buy').disabled=career;$('return').disabled=career;$('creditPlayer').disabled=career;$('debitPlayer').disabled=career;$('creditWallet').disabled=career;$('debitWallet').disabled=career;$('walletAdjustAmount').disabled=career;$('adjustAmount').disabled=career;$('playerSelect').disabled=career;$('seatSelect').disabled=career;$('aiEnabled').disabled=career;$('resetDemo').disabled=career;$('cash').textContent=career?'REPAY LOAN / CASH OUT':'CASH OUT'}
+function isPlayerBusted(i){const p=players[i];return !!p&&totalAvailable(p)<=0&&sum(p.bets)===0&&(i!==0||wallet<=0)&&!spinning}
+function checkForBust(){if(spinning||$('setupBack').classList.contains('hidden')===false)return;for(let i=0;i<players.length;i++){if(isPlayerBusted(i)&&!bustedPlayers.has(i)){bustedPlayers.add(i);const p=players[i];log('💀 '+p.name+' is bankrupt — no chips and no wallet funds.');notify('💀 '+p.name+' is OUT — no chips left!');if(players.length===1){bustPromptShown=true;$('bustTitle').textContent=p.name.toUpperCase()+', YOU’RE BUST!';$('bustMessage').textContent='Well, '+p.name+', you did it. You lost every last chip. Your balance is zero, your wallet is empty, and the roulette table has officially cleaned you out.';$('bustDetail').textContent=gameMode==='career'?'Your million-credit loan is still '+fmt(careerDebt)+'. The house wins this time. Restart your career with 20,000 chips?':'No chips. No wallet. No comeback funds. Start a fresh Freeplay game?';$('bustBack').classList.add('show');if('speechSynthesis' in window){try{speechSynthesis.cancel();if($('voiceResults').checked){const u=new SpeechSynthesisUtterance(p.name+', you are bust. You have lost everything. Game over.');speechSynthesis.speak(u)}}catch(e){}}}else{p.eliminated=true;if(activePlayer===i){const next=players.findIndex((x,j)=>j!==i&&!bustedPlayers.has(j));if(next>=0)activePlayer=next}}}else if(!isPlayerBusted(i)){bustedPlayers.delete(i);players[i].eliminated=false}}}
+function restartFromBust(){const wasCareer=gameMode==='career',count=players.length,wasAI=aiEnabled,names=players.map(p=>p.name);$('bustBack').classList.remove('show');$('roundOverlay').classList.remove('show');beginGame(wasCareer?'career':'freeplay',count,wasAI,names);log('Game restarted after bankruptcy');notify('New game started. Good luck!')}
+$('bustRestart').onclick=restartFromBust;
+$('bustClose').onclick=()=>$('bustBack').classList.remove('show');
+function beginGame(kind,count,withAI,names){labLastBetsByPlayer={};bustedPlayers.clear();bustPromptShown=false;gameMode=kind==='career'?'career':'freeplay';careerDebt=1000000;careerRepaid=0;careerFinished=false;count=gameMode==='career'?1:count;players=basePlayers(count);if(Array.isArray(names))players.forEach((p,i)=>{p.name=String(names[i]||'').trim().slice(0,28)||defaultSeatName(i,withAI,gameMode)});else players.forEach((p,i)=>p.name=defaultSeatName(i,withAI,gameMode));if(gameMode==='career')players[0].balance=20000;wallet=0;previous=[];history=[];logs=[];turnsTaken.clear();activePlayer=0;bettingOpen=true;seconds=Number($('roundSeconds').value);aiEnabled=gameMode==='career'?false:withAI;players.forEach((p,i)=>p.cpu=gameMode!=='career'&&withAI&&i>0);$('seatSelect').value=String(count);$('aiEnabled').value=aiEnabled?'on':'off';updatePlayerOptions();autoAdvanceCpu();render();drawWheel()}
+$('newCareer').onclick=()=>{if(spinning){notify('Wait for the spin to finish.');return}if(!confirm('Start a new Career? This replaces the current table and resets career progress. Export your save first if you want to keep it.'))return;beginGame('career',1,false);log('New career begun: 20,000 starting chips and 1,000,000 loan');notify('New Career started')};
+function defaultSeatName(i,withAI,kind){return kind!=='career'&&withAI&&i>0?'AI '+i:'Player '+(i+1)}
+function refreshSetupNames(){
+ const kind=$('setupGameMode').value,withAI=$('setupAI').value==='on';
+ const count=kind==='career'?1:Number($('setupPlayers').value);
+ const holder=$('setupNames');
+ const old=Array.from(holder.querySelectorAll('input')).map(x=>({value:x.value,placeholder:x.placeholder}));
+ holder.replaceChildren();
+ for(let i=0;i<count;i++){
+  const fallback=defaultSeatName(i,withAI,kind);
+  const label=document.createElement('label');label.textContent=fallback+' name (optional)';
+  const input=document.createElement('input');input.type='text';input.className='setup-name-input';input.maxLength=28;
+  input.autocomplete='off';input.placeholder=fallback;
+  input.value=old[i]?(old[i].value===old[i].placeholder?'':old[i].value):'';
+  label.append(input);holder.append(label);
+ }
+}
+$('setupPlayers').addEventListener('change',refreshSetupNames);$('setupAI').addEventListener('change',refreshSetupNames);
+$('setupGameMode').onchange=()=>{const career=$('setupGameMode').value==='career';$('setupPlayers').disabled=career;$('setupAI').disabled=career;$('setupPlayerHeading').textContent=career?'Solo career (1 player)':'How many players?';if(career){$('setupPlayers').value='1';$('setupAI').value='off'}refreshSetupNames()};refreshSetupNames();
+
+function betOdds(type){if(type.startsWith("sixline:"))return "Six-line bet on "+type.slice(8).split(",").join(", ")+" · 5:1 payout · 6 in 37 chance (16.22%)";if(type.startsWith("street:"))return "Street bet on "+type.slice(7).split(",").join(", ")+" · 11:1 payout · 3 in 37 chance (8.11%)";if(type.startsWith("split:"))return "Split bet on "+type.slice(6).replaceAll(","," and ")+" · 17:1 payout · 2 in 37 chance (5.41%)";if(type.startsWith("corner:"))return "Corner bet on "+type.slice(7).replaceAll(", ",", ")+" · 8:1 payout · 4 in 37 chance (10.81%)";if(type.startsWith('n:'))return 'Straight-up number '+type.slice(2)+' · 35:1 payout · 1 in 37 chance (2.70%)';if(type.startsWith('dozen:'))return ['1st dozen (1–12)','2nd dozen (13–24)','3rd dozen (25–36)'][Number(type.slice(6))]+' · 2:1 payout · 12 in 37 (32.43%)';if(type.startsWith('col:'))return 'Column bet · 2:1 payout · 12 in 37 (32.43%)';return ({red:'Red',black:'Black',even:'Even',odd:'Odd',low:'1–18',high:'19–36'})[type]+' · 1:1 payout · 18 in 37 (48.65%)'}
+function updateOddsUI(){ $('oddsHelp').textContent=oddsHelpEnabled?'ⓘ LEARN BET ODDS: ON':'ⓘ LEARN BET ODDS: OFF';$('oddsHelp').setAttribute('aria-pressed',String(oddsHelpEnabled));if(!oddsHelpEnabled)$('oddsTooltip').hidden=true;document.querySelectorAll('[data-bet]').forEach(el=>el.classList.toggle('odds-active',oddsHelpEnabled))}
+function showOdds(type){if(!oddsHelpEnabled)return;const t=$('oddsTooltip');t.textContent=betOdds(type)+' · All payouts include the original stake.';t.hidden=false}
+function canAddBets(player,bets){if($('spaceLimit').value!=='on')return true;const totals={};for(const b of [...player.bets,...bets]){totals[b.type]=(totals[b.type]||0)+b.value;if(totals[b.type]>200000)return false}return true}
+const step=Math.PI*2/37;const sum=a=>a.reduce((t,b)=>t+b.value,0);const allBets=()=>players.reduce((t,p)=>t+sum(p.bets),0);
+function log(s){logs.unshift({s,at:new Date().toLocaleTimeString()});logs=logs.slice(0,40);$('log').innerHTML=logs.map(x=>`<li><strong>${x.at}</strong> · ${x.s}</li>`).join('')}
+function notify(s){$('toast').textContent=s;$('toast').classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>$('toast').classList.remove('show'),3300)}
+function beep(freq=480,duration=.08){if($('sound').value!=='on')return;try{audioCtx??=new(window.AudioContext||window.webkitAudioContext)();const o=audioCtx.createOscillator(),g=audioCtx.createGain();o.type='sine';o.frequency.value=freq;g.gain.setValueAtTime(.045,audioCtx.currentTime);g.gain.exponentialRampToValueAtTime(.001,audioCtx.currentTime+duration);o.connect(g).connect(audioCtx.destination);o.start();o.stop(audioCtx.currentTime+duration)}catch(e){}}
+function playSound(kind){
+ if($('sound').value!=='on')return;
+ const patterns={chip:[[480,.045]],turn:[[460,.065],[620,.07]],spin:[[260,.11],[390,.09]],tick:[[850,.016]],win:[[523,.10],[659,.12],[784,.16],[1046,.24]],lose:[[360,.12],[260,.17]],achievement:[[523,.11],[659,.11],[784,.12],[1047,.24]]};
+ let delay=0;for(const [freq,duration] of patterns[kind]||[]){setTimeout(()=>beep(freq,duration),delay);delay+=duration*1000+65}
+}
+const ACHIEVEMENTS=[
+ {id:'first',icon:'🎲',name:'First Spin',desc:'Finish your first round with a bet.',goal:1,progress:p=>p.stats.rounds},
+ {id:'ten',icon:'🎟️',name:'Regular',desc:'Participate in 10 betting rounds.',goal:10,progress:p=>p.stats.rounds},
+ {id:'veteran',icon:'⭐',name:'Veteran',desc:'Participate in 25 betting rounds.',goal:25,progress:p=>p.stats.rounds},
+ {id:'centurion',icon:'🏛️',name:'Centurion',desc:'Participate in 100 betting rounds.',goal:100,progress:p=>p.stats.rounds},
+ {id:'firstwin',icon:'🥇',name:'First Victory',desc:'Finish a betting round with net profit.',goal:1,progress:p=>p.stats.wins},
+ {id:'five',icon:'👑',name:'Five-Time Winner',desc:'Finish 5 rounds with net profit.',goal:5,progress:p=>p.stats.wins},
+ {id:'tenwins',icon:'🏆',name:'Ten-Time Winner',desc:'Finish 10 rounds with net profit.',goal:10,progress:p=>p.stats.wins},
+ {id:'streak',icon:'🔥',name:'Hot Streak',desc:'Win 3 consecutive betting rounds.',goal:3,progress:p=>p.stats.bestStreak},
+ {id:'unstoppable',icon:'🌋',name:'Unstoppable',desc:'Win 5 consecutive betting rounds.',goal:5,progress:p=>p.stats.bestStreak},
+ {id:'comeback',icon:'🛡️',name:'Comeback King',desc:'Win after 3 consecutive losing rounds.',goal:1,progress:p=>p.stats.comebacks},
+ {id:'bullseye',icon:'🎯',name:'Bullseye',desc:'Win a straight-up number bet.',goal:1,progress:p=>p.stats.straightWins},
+ {id:'sharpshooter',icon:'🏹',name:'Sharpshooter',desc:'Win 3 straight-up number bets.',goal:3,progress:p=>p.stats.straightWinsTotal},
+ {id:'seven',icon:'🍀',name:'Lucky Seven',desc:'Win a bet when number 7 lands.',goal:1,progress:p=>p.stats.number7},
+ {id:'green',icon:'💚',name:'Zero Hero',desc:'Win a straight-up bet on zero.',goal:1,hidden:true,progress:p=>p.stats.zeroWins},
+ {id:'red',icon:'❤️',name:'Seeing Red',desc:'Win 5 red outside bets.',goal:5,progress:p=>p.stats.redWins},
+ {id:'black',icon:'🖤',name:'Back in Black',desc:'Win 5 black outside bets.',goal:5,progress:p=>p.stats.blackWins},
+ {id:'even',icon:'⚖️',name:'Even Steven',desc:'Win 5 even outside bets.',goal:5,progress:p=>p.stats.evenWins},
+ {id:'odd',icon:'🔢',name:'Odd One Out',desc:'Win 5 odd outside bets.',goal:5,progress:p=>p.stats.oddWins},
+ {id:'dozens',icon:'📐',name:'Dozen Specialist',desc:'Win 5 dozen bets.',goal:5,progress:p=>p.stats.dozenWins},
+ {id:'columns',icon:'🏗️',name:'Column Climber',desc:'Win 5 column bets.',goal:5,progress:p=>p.stats.columnWins},
+ {id:'rainbow',icon:'🌈',name:'Rainbow',desc:'Place bets with all six chip denominations.',goal:6,progress:p=>p.stats.usedChips.length},
+ {id:'variety',icon:'🎨',name:'Versatile',desc:'Try 10 distinct betting positions.',goal:10,progress:p=>(p.stats.betTypes||[]).length},
+ {id:'allrounder',icon:'🧭',name:'All-Rounder',desc:'Win bets across 5 different betting categories.',goal:5,progress:p=>p.stats.distinctWinningTypes.length},
+ {id:'high',icon:'💎',name:'High Roller',desc:'Win a round including a 100K chip.',goal:1,progress:p=>p.stats.highRoller||0},
+ {id:'cash250',icon:'💰',name:'Quarter Million Cash-Out',desc:'Cash out 250,000 virtual chips in total.',goal:250000,hidden:true,progress:p=>p.stats.cashOutTotal||0},
+ {id:'cash500',icon:'💎',name:'Half Million Cash-Out',desc:'Cash out 500,000 virtual chips in total.',goal:500000,hidden:true,progress:p=>p.stats.cashOutTotal||0},
+ {id:'cash1000',icon:'🏦',name:'Millionaire Cash-Out',desc:'Cash out 1,000,000 virtual chips in total.',goal:1000000,hidden:true,progress:p=>p.stats.cashOutTotal||0},
+ {id:'lose200',icon:'💥',name:'200K Heartbreak',desc:'Lose 200,000 net in one round.',goal:200000,hidden:true,progress:p=>p.stats.biggestRoundLoss||0},
+ {id:'lose500',icon:'🌪️',name:'500K Heartbreak',desc:'Lose 500,000 net in one round.',goal:500000,hidden:true,progress:p=>p.stats.biggestRoundLoss||0},
+ {id:'lose1000',icon:'☄️',name:'Million-Credit Meltdown',desc:'Lose 1,000,000 net in one round.',goal:1000000,hidden:true,progress:p=>p.stats.biggestRoundLoss||0},
+ {id:'master',icon:'⚒️',name:'Anvil Collector',desc:'Unlock 15 other trophies.',goal:15,progress:p=>p.achievements.filter(id=>id!=='master').length}
+];
+let achievementSoundEnabled=true,achievementQueue=[],achievementTimer=null;
+function queueAchievement(p,a){achievementQueue.push({name:p.name,a});if(!achievementTimer)showNextAchievement()}
+function showNextAchievement(){const next=achievementQueue.shift();if(!next){achievementTimer=null;return}const pop=$('achievementPop');pop.replaceChildren();const label=document.createElement('small');label.textContent='🏆 ACHIEVEMENT UNLOCKED';const title=document.createElement('strong');title.textContent=next.a.icon+' '+next.a.name;const detail=document.createElement('small');detail.textContent=next.name+' · '+next.a.desc;pop.append(label,title,detail);pop.classList.add('show');if(achievementSoundEnabled&&$('sound').value==='on')playSound('achievement');achievementTimer=setTimeout(()=>{pop.classList.remove('show');achievementTimer=setTimeout(showNextAchievement,450)},3300)}
+function awardAchievements(p){for(const a of ACHIEVEMENTS){if(!p.achievements.includes(a.id)&&a.id!=='master'&&a.progress(p)>=a.goal){p.achievements.push(a.id);log('🏆 '+p.name+' unlocked '+a.name);queueAchievement(p,a)}}const master=ACHIEVEMENTS.find(a=>a.id==='master');if(!p.achievements.includes('master')&&master.progress(p)>=master.goal){p.achievements.push('master');log('🏆 '+p.name+' unlocked '+master.name);queueAchievement(p,master)}}
+function renderAchievements(){const select=$('achievementPlayer'),old=Number(select.value);select.replaceChildren(...players.map((p,i)=>{const o=document.createElement('option');o.value=i;o.textContent=p.name;return o}));select.value=String(Number.isInteger(old)&&old>=0&&old<players.length?old:activePlayer);const p=players[Number(select.value)];$('achievementSummary').textContent=p.achievements.filter(id=>!ACHIEVEMENTS.find(a=>a.id===id)?.hidden).length+' / '+ACHIEVEMENTS.filter(a=>!a.hidden).length+' regular · '+p.achievements.filter(id=>ACHIEVEMENTS.find(a=>a.id===id)?.hidden).length+' secret unlocked';$('achievementGrid').replaceChildren();for(const a of ACHIEVEMENTS){const unlocked=p.achievements.includes(a.id);if(a.hidden&&!unlocked)continue;const tile=document.createElement('div');tile.className='achievement-tile'+(unlocked?' unlocked':'');const icon=document.createElement('div');icon.className='achievement-icon';icon.textContent=unlocked?a.icon:'🔒';const name=document.createElement('div');name.className='achievement-name';name.textContent=a.name;const desc=document.createElement('div');desc.className='achievement-description';desc.textContent=a.desc;const progress=document.createElement('div');progress.className='achievement-progress';progress.textContent=unlocked?'✓ UNLOCKED':Math.min(a.goal,a.progress(p))+' / '+a.goal;tile.append(icon,name,desc,progress);$('achievementGrid').append(tile)}}
+$('achievementPlayer').onchange=renderAchievements;
+$('achievementSound').onclick=()=>{achievementSoundEnabled=!achievementSoundEnabled;$('achievementSound').textContent='🔔 Achievement sound: '+(achievementSoundEnabled?'ON':'OFF')};
+function chipMarkup(v,layer=0,other=false){let c=DENOMS.find(x=>x.v===v)||DENOMS[0];return `<span class="chip chip-token ${other?'other-token':''}" style="--chip:${c.c};--ink:${c.ink};--layer:${layer}" title="${fmt(v)} credits"><span class="chip-anvil">${plainAnvilLogo()}</span><span class="chip-value">${c.t}</span></span>`}
+// All normal numbers, split lines, and corner intersections are active together.
+function buildInsideTargets(){
+ const board=$('board');
+ board.querySelectorAll('.inside-target').forEach(el=>el.remove());
+ const cells=new Map([...board.querySelectorAll('.cell[data-bet^="n:"]')].map(el=>[Number(el.dataset.bet.slice(2)),el]));
+ const center=n=>{const el=cells.get(n),r=el.getBoundingClientRect(),b=board.getBoundingClientRect();return {x:r.left-b.left-board.clientLeft+r.width/2,y:r.top-b.top-board.clientTop+r.height/2}};
+ const target=(kind,ns,x,y,orientation='vertical')=>{
+  const type=kind+':'+ns.slice().sort((a,b)=>a-b).join(',');
+  const el=document.createElement('button');el.type='button';el.className='inside-target '+kind+' '+orientation;
+  el.dataset.bet=type;el.title=kind.toUpperCase()+' '+ns.join(' / ')+' — '+(kind==='split'?'17:1':kind==='street'?'11:1':kind==='sixline'?'5:1':'8:1');
+  el.setAttribute('aria-label',el.title);el.style.left=x+'px';el.style.top=y+'px';
+  el.addEventListener('click',e=>{e.stopPropagation();place(type)});
+  el.addEventListener('mouseenter',()=>showOdds(type));
+  el.addEventListener('focus',()=>showOdds(type));
+  el.addEventListener('mouseleave',()=>{$('oddsTooltip').hidden=true});
+  board.append(el);
+ };
+ for(let col=0;col<12;col++)for(let row=0;row<3;row++){
+  const n=(col+1)*3-row,a=center(n);
+  if(row<2){const m=n-1,b=center(m);target('split',[n,m],(a.x+b.x)/2,(a.y+b.y)/2,'horizontal')}
+  if(col<11){const m=n+3,b=center(m);target('split',[n,m],(a.x+b.x)/2,(a.y+b.y)/2,'vertical')}
+  if(row<2&&col<11){const ns=[n,n-1,n+3,n+2],b=center(n+2);target('corner',ns,(a.x+b.x)/2,(a.y+b.y)/2)}
+ }
+ // Six-line bets sit at the bottom boundary between two adjacent streets.
+ for(let col=0;col<11;col++){
+  const ns=Array.from({length:6},(_,i)=>col*3+i+1);
+  const a=cells.get(col*3+1).getBoundingClientRect(),b=cells.get((col+1)*3+1).getBoundingClientRect(),br=board.getBoundingClientRect();
+  target('sixline',ns,(a.right+b.left)/2-br.left-board.clientLeft,Math.max(a.bottom,b.bottom)-br.top-board.clientTop,'horizontal');
+ }
+ // Street bets live on the bottom border of each three-number column, not in separate buttons.
+ for(let col=0;col<12;col++){
+  const ns=[col*3+1,col*3+2,col*3+3];
+  const bottom=cells.get(ns[0]).getBoundingClientRect(),boardRect=board.getBoundingClientRect();
+  target('street',ns,bottom.left-boardRect.left-board.clientLeft+bottom.width/2,bottom.bottom-boardRect.top-board.clientTop,'horizontal');
+ }
+ alignBottomBetRows();
+ updateOddsUI();
+ // Rebuilding targets removes their child chips; redraw bets immediately afterward.
+ render();
+}
+window.addEventListener('resize',()=>requestAnimationFrame(buildInsideTargets));
+$('tutorialOpen').addEventListener('click',()=>{$('tutorialBack').hidden=false;$('tutorialClose').focus()});
+$('tutorialClose').addEventListener('click',()=>{$('tutorialBack').hidden=true;$('tutorialOpen').focus()});
+$('tutorialBack').addEventListener('click',e=>{if(e.target===$('tutorialBack'))$('tutorialBack').hidden=true});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('tutorialBack').hidden)$('tutorialBack').hidden=true});
+
+function applyBoardStyle(){localStorage.setItem('anvilBoardStyle',$('boardStyle').value);const board=$('board');board.classList.toggle('board-casino',$('boardStyle').value==='large');requestAnimationFrame(()=>requestAnimationFrame(buildInsideTargets))}
+$('boardStyle').value=localStorage.getItem('anvilBoardStyle')==='large'?'large':'classic';$('boardStyle').addEventListener('change',applyBoardStyle);
+function createBoard(){let b=$('board'),z=document.createElement('div');z.className='cell zero';z.innerHTML='<span class="board-number">0</span>';z.dataset.bet='n:0';b.append(z);for(let r=0;r<3;r++){for(let col=0;col<12;col++){let n=(col+1)*3-r,d=document.createElement('div');d.className='cell '+(RED.has(n)?'red':'black');d.innerHTML='<span class="board-number">'+n+'</span>';d.dataset.bet='n:'+n;d.style.gridRow=r+1;d.style.gridColumn=col+2;b.append(d)}let d=document.createElement('div');d.className='cell column';d.textContent='2 to 1';d.dataset.bet='col:'+r;d.style.gridRow=r+1;d.style.gridColumn=14;b.append(d)}['1st 12','2nd 12','3rd 12'].forEach((s,i)=>{let d=document.createElement('div');d.className='outside';d.textContent=s;d.dataset.bet='dozen:'+i;$('dozens').append(d)});[['1–18','low'],['EVEN','even'],['◆ RED','red'],['◆ BLACK','black'],['ODD','odd'],['19–36','high']].forEach(([s,key])=>{let d=document.createElement('div');d.className='outside '+(key==='red'?'red':key==='black'?'black':'');d.textContent=s;d.dataset.bet=key;$('outside').append(d)});document.querySelectorAll('[data-bet]').forEach(el=>{el.tabIndex=0;el.setAttribute('role','button');el.setAttribute('aria-label','Bet on '+el.textContent);el.addEventListener('mouseenter',()=>showOdds(el.dataset.bet));el.addEventListener('focus',()=>showOdds(el.dataset.bet));el.addEventListener('mouseleave',()=>{$('oddsTooltip').hidden=true});el.addEventListener('click',()=>{place(el.dataset.bet)});el.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();place(el.dataset.bet)}})});requestAnimationFrame(()=>applyBoardStyle())}
+function refreshCoveredNumbers(){
+ const on=$('highlightCovered')?.checked;
+ const bets=players[activePlayer]?.bets||[];
+ document.querySelectorAll('#board .cell[data-bet^="n:"]').forEach(el=>{
+  const n=Number(el.dataset.bet.slice(2));
+  el.classList.toggle('covered-by-bet',!!on&&bets.some(b=>winMultiplier(b.type,n)>0));
+ });
+}
+// Preview every number a betting position would cover before a chip is placed.
+let hoveredBetType=null;
+function refreshHoverCoverage(){
+ const on=$('highlightCovered')?.checked;
+ document.querySelectorAll('#board .cell[data-bet^="n:"]').forEach(el=>{
+  const n=Number(el.dataset.bet.slice(2));
+  el.classList.toggle('hover-covered-number',!!on&&!!hoveredBetType&&winMultiplier(hoveredBetType,n)>0);
+ });
+}
+function clearHoverCoverage(){hoveredBetType=null;refreshHoverCoverage()}
+function previewBetCoverage(type){hoveredBetType=type;refreshHoverCoverage()}
+// Delegation also covers split, corner, street and six-line markers rebuilt on resize.
+for(const id of ['board','dozens','outside']){
+ const root=$(id);
+ root.addEventListener('pointerover',e=>{const el=e.target.closest('[data-bet]');if(el&&root.contains(el))previewBetCoverage(el.dataset.bet)});
+ root.addEventListener('pointerout',e=>{const el=e.target.closest('[data-bet]');if(el&&root.contains(el)&&!el.contains(e.relatedTarget))clearHoverCoverage()});
+ root.addEventListener('focusin',e=>{const el=e.target.closest('[data-bet]');if(el)previewBetCoverage(el.dataset.bet)});
+ root.addEventListener('focusout',e=>{if(!root.contains(e.relatedTarget))clearHoverCoverage()});
+}
+function alignBottomBetRows(){
+ const board=$('board'),one=board.querySelector('[data-bet="n:1"]'),thirtySix=board.querySelector('[data-bet="n:36"]');
+ if(!one||!thirtySix)return;
+ const b=board.getBoundingClientRect(),a=one.getBoundingClientRect(),z=thirtySix.getBoundingClientRect();
+ const left=Math.max(0,a.left-b.left),right=Math.max(0,b.right-z.right);
+ for(const id of ['dozens','outside']){const el=$(id);el.style.marginLeft=left+'px';el.style.marginRight=right+'px';}
+}
+$('highlightCovered').checked=localStorage.getItem('anvilHighlightCovered')!=='no';
+$('highlightCovered').onchange=()=>{localStorage.setItem('anvilHighlightCovered',$('highlightCovered').checked?'yes':'no');refreshCoveredNumbers();if(!$('highlightCovered').checked)clearHoverCoverage()};
+function totalAvailable(p){return p.balance+(inventoryOn()?DENOMS.reduce((t,d)=>t+stockCount(p,d.v)*d.v,0):0)}
+function chipStock(p){p.chipStock??={};return p.chipStock}
+function stockCount(p,v){return Number(chipStock(p)[v]||0)}
+function giveChips(p,value){let rem=value;for(const d of [...DENOMS].reverse()){const n=Math.floor(rem/d.v);if(n){chipStock(p)[d.v]=stockCount(p,d.v)+n;rem-=n*d.v}}if(rem)p.balance+=rem}
+function inventoryOn(){return $('inventoryMode').checked}
+function canSpendChips(p,bets){if(!inventoryOn())return true;const need={};for(const b of bets)need[b.value]=(need[b.value]||0)+1;return Object.entries(need).every(([v,n])=>stockCount(p,v)>=n)}
+function spendChips(p,bets){if(!inventoryOn())return;for(const b of bets)chipStock(p)[b.value]=stockCount(p,b.value)-1}
+function refundChips(p,bets){if(!inventoryOn())return;for(const b of bets)chipStock(p)[b.value]=stockCount(p,b.value)+1}
+function renderChipShop(){
+ const enabled=inventoryOn(),p=players[activePlayer],shopQty=Math.max(1,Math.min(1000,Number($('shopQuantity').value)||1));
+ $('inventoryControls').hidden=!enabled;
+ $('chipShop').classList.toggle('enabled',enabled);
+ $('shopInventoryOwner').textContent=p.name;$('shopCreditSpotlight').textContent=fmt(p.balance);
+ const total=DENOMS.reduce((v,d)=>v+stockCount(p,d.v)*d.v,0);
+ $('shopInventoryTotal').textContent=enabled?'Total chip value: '+fmt(total)+' credits':'Inventory off · chips are unlimited';
+ $('shopOwnedChips').innerHTML=DENOMS.map(d=>`<div class="shop-owned-item ${enabled&&stockCount(p,d.v)===0?'empty':''}"><span class="shop-chip-scale"><button type="button" tabindex="-1" disabled class="chip" style="--chip:${d.c};--ink:${d.ink}"><span class="chip-anvil">${plainAnvilLogo()}</span><span class="chip-value">${d.t}</span><span class="chip-owned">${enabled?'×'+stockCount(p,d.v):'∞'}</span></button></span><div class="shop-chip-actions"><button type="button" class="shop-buy-one" data-exchange-buy="${d.v}" ${!enabled||spinning||p.balance<d.v*shopQty?'disabled':''} title="${!enabled?'Enable physical chip inventory':p.balance<d.v*shopQty?'Not enough credits':'Buy chips'}">Buy</button><button type="button" class="shop-sell-one" data-exchange-sell="${d.v}" ${!enabled||spinning||stockCount(p,d.v)<shopQty?'disabled':''} title="${!enabled?'Enable physical chip inventory':stockCount(p,d.v)<shopQty?'Not enough chips':'Sell chips'}">Sell</button></div></div>`).join('');
+ $('shopOwnedChips').querySelectorAll('[data-exchange-buy]').forEach(el=>el.onclick=()=>exchangeChips(true,Number(el.dataset.exchangeBuy)));
+ $('shopOwnedChips').querySelectorAll('[data-exchange-sell]').forEach(el=>el.onclick=()=>exchangeChips(false,Number(el.dataset.exchangeSell)));
+ if(!enabled)return;
+ $('inventoryInfo').textContent='Credits available to exchange: '+fmt(p.balance);
+} 
+$('inventoryMode').checked=localStorage.getItem('anvilInventoryMode')==='yes';
+$('shopQuantity').addEventListener('input',renderChipShop);
+$('inventoryMode').onchange=()=>{if(spinning||players.some(p=>p.bets.length)){notify('Switch chip inventory mode only between rounds with no active bets.');$('inventoryMode').checked=!$('inventoryMode').checked;return}localStorage.setItem('anvilInventoryMode',$('inventoryMode').checked?'yes':'no');render()};
+function exchangeChips(buy,v){if(!inventoryOn()||spinning)return;const p=players[activePlayer],q=Number($('shopQuantity').value),amount=v*q;if(!Number.isSafeInteger(q)||q<1||q>1000){notify('Choose 1–1000 chips.');return}if(buy){if(p.balance<amount){notify('Not enough unspent credits to buy those chips.');return}p.balance-=amount;chipStock(p)[v]=stockCount(p,v)+q}else{if(stockCount(p,v)<q){notify('You do not own that many chips.');return}chipStock(p)[v]-=q;p.balance+=amount}notify((buy?'Bought ':'Sold ')+q+' × '+fmt(v)+' chips');render()}
+function render(){ renderChipShop(); refreshCoveredNumbers(); refreshHoverCoverage(); renderCareer(); $('seatCount').textContent=players.length+' / 8 SEATS'; const p=players[activePlayer],bet=sum(p.bets);$('activePlayerBigName').textContent=p.name;$('activePlayerBanner').classList.toggle('cpu-seat',!!p.cpu);$('balance').textContent=fmt(p.balance);$('wallet').textContent=fmt(activePlayer===0?wallet:0);$('bet').textContent=fmt(bet);$('betTop').textContent=fmt(bet);$('pot').textContent=fmt(allBets());$('timer').textContent='00:'+String(Math.max(0,seconds)).padStart(2,'0');$('status').textContent=spinning?'SPINNING':bettingOpen?'BETTING OPEN':'BETS CLOSED';$('status').classList.toggle('green',!spinning&&bettingOpen);$('modeTop').textContent=mode==='auto'?'AUTO':'DEALER';$('turnStatus').textContent=players[activePlayer].name+' — '+($('turnMode').value==='round'?'turn '+(turnsTaken.size+1)+' of '+players.length:'free betting')+' · '+turnsTaken.size+'/'+players.length+' turns completed';$('activePlayer').value=String(activePlayer);$('spin').disabled=spinning;$('dealerSpin').disabled=spinning;$('betToggle').disabled=spinning;$('betToggle').textContent=bettingOpen?'CLOSE BETTING':'OPEN BETTING';$('openBet').disabled=spinning;$('closeBet').disabled=spinning;$('undo').disabled=spinning||!bettingOpen||!p.bets.length;$('clear').disabled=spinning||!bettingOpen||!p.bets.length;$('rebet').disabled=spinning||!bettingOpen||!previous.length;$('double').disabled=spinning||!bettingOpen||!p.bets.length;
+$('chips').innerHTML=DENOMS.map(c=>`<button class="chip ${selected===c.v?'selected':''}" style="--chip:${c.c};--ink:${c.ink}" data-chip="${c.v}" aria-label="Select ${fmt(c.v)} credit chip${inventoryOn()?' · owned '+stockCount(p,c.v):''}" aria-pressed="${selected===c.v}" ${inventoryOn()&&stockCount(p,c.v)<1?'disabled title="No chips in inventory"':''}><span class="chip-anvil">${plainAnvilLogo()}</span><span class="chip-value">${c.t}</span><span class="chip-owned">${inventoryOn()?`×${stockCount(p,c.v)}`:"∞"}</span></button>`).join('');document.querySelectorAll('[data-chip]').forEach(el=>el.onclick=()=>{selected=Number(el.dataset.chip);beep(590);render()});
+const compact=$('chipView').value==='compact';document.querySelectorAll('[data-bet]').forEach(el=>{el.querySelectorAll('.bet-stack').forEach(n=>n.remove());let key=el.dataset.bet;for(let i=0;i<players.length;i++){let bs=players[i].bets.filter(b=>b.type===key);if(!bs.length)continue;let value=sum(bs),marker=el.classList.contains('inside-target'),shown=(compact||marker)?bs.slice(-1):bs.slice(-7);let tokens=shown.map((b,j)=>chipMarkup(b.value,j,i!==0)).join('');let label=(compact||marker||bs.length>7||i>0)?`<span class="stack-label">${i?'P'+(i+1)+' · ':''}${fmt(value)}</span>`:'';let wrapper=document.createElement('div');wrapper.className='bet-stack '+(i?'other ':'')+((compact||marker)?'compact':'');wrapper.title=`${players[i].name}: ${fmt(value)} credits (${bs.length} chips)`;wrapper.innerHTML=tokens+label;el.append(wrapper)}});
+$('players').innerHTML=players.map((p,i)=>`<div class="panel player ${i===activePlayer?'active':''}"><div class="avatar" style="background:${p.color}">${i?'♟':'♛'}</div><div class="player-info"><input data-rename="${i}" aria-label="Player ${i+1} name" maxlength="24" value="${p.name.replaceAll('&','&amp;').replaceAll('\"','&quot;').replaceAll('<','&lt;')}"><p>Balance: ${fmt(p.balance)}<br>Current bet: ${fmt(sum(p.bets))}</p><span class="player-trophies">🏆 ${p.achievements.length} trophies</span>${i===activePlayer?'<span class="turn-badge">● CURRENT TURN</span>':''}<label class="player-kind-label">Seat <select data-controller="${i}" ${gameMode==='career'?'disabled':''}><option value="human" ${!p.cpu?'selected':''}>👤 Human</option><option value="cpu" ${p.cpu?'selected':''}>🤖 CPU</option></select></label></div></div>`).join('');document.querySelectorAll('[data-rename]').forEach(el=>el.onchange=()=>{players[Number(el.dataset.rename)].name=el.value.trim()||'Player '+(Number(el.dataset.rename)+1);updatePlayerOptions();render()});document.querySelectorAll('[data-controller]').forEach(el=>el.onchange=()=>{const i=Number(el.dataset.controller);players[i].cpu=el.value==='cpu';aiEnabled=players.some(p=>p.cpu);if(i===activePlayer&&players[i].cpu)autoAdvanceCpu();render()});renderTableSidebar();renderAchievements();$('history').innerHTML=history.map(n=>`<b title="Winning number ${n}" class="${n===0?'green':RED.has(n)?'':'black'}">${n}</b>`).join('')}
+function removeBetAt(type){
+ if(spinning||!bettingOpen){notify('Bets can only be removed while betting is open.');return}
+ if($('turnMode').value==='round'&&turnsTaken.has(activePlayer)){notify('Your turn has ended.');return}
+ const p=players[activePlayer],removed=p.bets.filter(b=>b.type===type);
+ if(!removed.length){notify('You have no chips on that betting position.');return}
+ p.bets=p.bets.filter(b=>b.type!==type);
+ const refund=sum(removed);if(inventoryOn())refundChips(p,removed);else p.balance+=refund;
+ playSound('chip');notify('Cleared '+removed.length+' chip'+(removed.length===1?'':'s')+' · refunded '+fmt(refund));render();
+}
+document.addEventListener('contextmenu',e=>{const cell=e.target.closest('[data-bet]');if(!cell)return;e.preventDefault();removeBetAt(cell.dataset.bet)});
+function place(type){if(spinning||!bettingOpen){notify('Betting is closed.');return}let p=players[activePlayer];if($('turnMode').value==='round'&&turnsTaken.has(activePlayer)){notify('This player has finished their turn. Start a new turn order.');return}if(inventoryOn()?stockCount(p,selected)<1:p.balance<selected){notify(inventoryOn()?'No chips of this value. Use the chip shop.':'Not enough available credits.');return}if(!canAddBets(p,[{type,value:selected}])){notify('200,000 limit reached on this betting space for this player.');return}oddsHelpEnabled=false;updateOddsUI();if(inventoryOn())spendChips(p,[{type,value:selected}]);else p.balance-=selected;p.bets.push({type,value:selected});if(!p.stats.usedChips.includes(selected))p.stats.usedChips.push(selected);p.stats.betTypes??=[];if(!p.stats.betTypes.includes(type))p.stats.betTypes.push(type);playSound('chip');render()}
+function winMultiplier(type,n){if(type.startsWith('sixline:'))return type.slice(8).split(',').map(Number).includes(n)?6:0;if(type.startsWith('street:'))return type.slice(7).split(',').map(Number).includes(n)?12:0;if(type.startsWith('split:'))return type.slice(6).split(',').map(Number).includes(n)?18:0;if(type.startsWith('corner:'))return type.slice(7).split(',').map(Number).includes(n)?9:0;if(type.startsWith('n:'))return Number(type.slice(2))===n?36:0;if(n===0)return 0;if(type.startsWith('dozen:'))return Math.floor((n-1)/12)===Number(type.slice(6))?3:0;if(type.startsWith('col:'))return (3-n%3)%3===Number(type.slice(4))?3:0;return ({low:n<=18,high:n>=19,even:n%2===0,odd:n%2===1,red:RED.has(n),black:!RED.has(n)})[type]?2:0}
+function cpuTakeTurn(i){
+ const p=players[i];if(!p||!p.cpu||p.eliminated||sum(p.bets)>0||!bettingOpen)return;
+ const choices=['sixline:1,2,3,4,5,6','red','black','even','odd','low','high','dozen:0','dozen:1','dozen:2','n:7','n:17','n:23','n:32'];
+ for(let j=0,count=1+Math.floor(Math.random()*3);j<count;j++){
+  const opts=DENOMS.filter(d=>(inventoryOn()?stockCount(p,d.v)>0:d.v<=p.balance)&&d.v<=25000);
+  if(!opts.length)break;
+  const c=opts[Math.floor(Math.random()*opts.length)],type=choices[Math.floor(Math.random()*choices.length)];
+  if(!canAddBets(p,[{type,value:c.v}]))continue;
+  if(inventoryOn())spendChips(p,[{type,value:c.v}]);else p.balance-=c.v;p.bets.push({type,value:c.v});
+ }
+ log('🤖 '+p.name+' placed '+fmt(sum(p.bets))+' in CPU bets');
+}
+function simulatedBets(){
+ // CPU betting is controlled by round-robin turns, not a surprise pre-spin action.
+ for(let i=0;i<players.length;i++)if(players[i].cpu&&!turnsTaken.has(i)){cpuTakeTurn(i);turnsTaken.add(i)}
+ render();
+}
+function canTakeTurn(i){const p=players[i];return !!p&&!p.eliminated&&(totalAvailable(p)>0||sum(p.bets)>0)}
+function firstEligiblePlayer(){const i=players.findIndex((p,j)=>canTakeTurn(j));return i>=0?i:0}
+function autoAdvanceCpu(){
+ if(spinning||!bettingOpen||$('turnMode').value!=='round')return;
+ let guard=0;
+ while(canTakeTurn(activePlayer)&&players[activePlayer]?.cpu&&!turnsTaken.has(activePlayer)&&guard++<players.length){
+  cpuTakeTurn(activePlayer);turnsTaken.add(activePlayer);
+  const next=players.findIndex((p,i)=>!turnsTaken.has(i)&&canTakeTurn(i));
+  if(next<0)break;
+  activePlayer=next;
+ }
+ render();
+}
+function renderTableSidebar(){
+ const box=$('tablePlayerRows');if(!box)return;
+ box.replaceChildren();
+ players.forEach((p,i)=>{
+  const row=document.createElement('div');row.className='table-player-row'+(i===activePlayer?' current':'');
+  const name=document.createElement('div');name.className='table-player-identity';
+  const strong=document.createElement('strong');strong.textContent=p.name;
+  const small=document.createElement('small');small.textContent=(p.cpu?'🤖 CPU':'👤 Human')+(!canTakeTurn(i)?' · BROKE / OUT':turnsTaken.has(i)?' · Done':i===activePlayer?' · Betting now':'');
+  name.append(strong,small);
+  const amounts=document.createElement('div');amounts.className='table-player-amounts';
+  const stake=document.createElement('strong');stake.textContent=fmt(sum(p.bets));
+  const available=document.createElement('small');available.textContent='Balance '+fmt(p.balance);
+  amounts.append(stake,available);
+  const kind=document.createElement('select');kind.setAttribute('aria-label',p.name+' controller');
+  kind.innerHTML='<option value="human">Human</option><option value="cpu">CPU</option>';kind.value=p.cpu?'cpu':'human';kind.disabled=gameMode==='career'||spinning;
+  kind.onchange=()=>{p.cpu=kind.value==='cpu';aiEnabled=players.some(x=>x.cpu);if(p.cpu&&i===activePlayer)autoAdvanceCpu();render();};
+  row.append(name,amounts,kind);box.append(row);
+ });
+ $('tableSidebarTotal').textContent=fmt(allBets())+' on table';
+ const pop=$('playerBetPopupRows');pop.replaceChildren();
+ players.forEach((p,i)=>{const item=document.createElement('div');item.className='bet-popup-player'+(i===activePlayer?' active':'');const a=document.createElement('span');a.textContent=(p.cpu?'🤖 ':'👤 ')+p.name+(!canTakeTurn(i)?' · OUT':'');const v=document.createElement('strong');v.textContent=fmt(sum(p.bets));item.append(a,v);pop.append(item)});
+ $('playerBetPopupTotal').textContent=fmt(allBets());
+ $('quickTurnName').textContent=players[activePlayer].name+(players[activePlayer].cpu?' · CPU TURN':' · YOUR TURN');
+ $('quickTurnHint').textContent=turnsTaken.size+'/'+players.length+' turns complete · '+fmt(sum(players[activePlayer].bets))+' bet';
+ $('quickNextTurn').disabled=spinning||!bettingOpen||players.filter((p,i)=>canTakeTurn(i)).length<2;
+ $('quickNextTurn').textContent=turnsTaken.size>=players.length-1?'FINISH BETTING TURNS ✓':'END TURN → NEXT PLAYER';
+}
+$('quickNextTurn').onclick=()=>nextTurn();
+function setBetPopup(open){$('playerBetPopup').hidden=!open;$('playerBetPopupToggle').setAttribute('aria-expanded',String(open));localStorage.setItem('anvilBetPopupOpen',open?'yes':'no')}
+$('playerBetPopupToggle').onclick=()=>setBetPopup($('playerBetPopup').hidden);
+$('playerBetPopupClose').onclick=()=>setBetPopup(false);
+setBetPopup(localStorage.getItem('anvilBetPopupOpen')!=='no');
+function openBetting(){if(spinning)return;bettingOpen=true;seconds=Number($('roundSeconds').value);autoWait=0;simulatedThisRound=false;turnsTaken.clear();activePlayer=firstEligiblePlayer();autoAdvanceCpu();render();log('Dealer opened betting')}
+function closeBetting(){if(spinning)return;bettingOpen=false;seconds=0;render();log('Dealer closed betting')}
+function startSpin(){if($('roundOverlay').classList.contains('show'))return;
+ if(spinning)return;
+ if(bettingOpen)closeBetting();
+ spinning=true;autoWait=0;
+ const n=EURO[Math.floor(Math.random()*37)],idx=EURO.indexOf(n);
+ const start=performance.now(),duration=8000,initial=rotation;let lastTick=0;
+ // The chosen pocket's centre ends exactly under the fixed top pointer.
+ const finalRotation=-(idx+.5)*step;
+ const wheelTurns=7+Math.floor(Math.random()*3);
+ const end=finalRotation+Math.PI*2*Math.ceil((initial+Math.PI*2*wheelTurns-finalRotation)/(Math.PI*2));
+ const ballStart=ballAngle;
+ // Ball travels smoothly counter-clockwise and ends at the top pointer.
+ // Choosing a whole number of turns avoids the late angular correction/jump.
+ const ballTurns=11;
+ const ballEnd=-Math.PI/2-Math.PI*2*ballTurns;
+ const ballTravel=ballEnd-ballStart;
+ const startRadius=ballRadius;
+ $('result').textContent='No more bets — ball in motion…';
+ log('Wheel spinning; no more bets');playSound('spin');render();
+ function frame(now){if(now-start>duration*.70&&now-lastTick>220&&now-start<duration*.94){playSound('tick');lastTick=now;}
+  const t=Math.min(1,(now-start)/duration);
+  const ease=1-Math.pow(1-t,3);
+  rotation=initial+(end-initial)*ease;
+  ballAngle=ballStart+ballTravel*ease;
+  // Drop from the outer race into the numbered ring, with small damped
+  // deflector impacts. Both oscillations fade to exactly zero at the finish.
+  const drop=Math.max(0,Math.min(1,(t-.64)/.36));
+  const smoothDrop=drop*drop*(3-2*drop);
+  const impact=Math.max(0,Math.min(1,(t-.72)/.28));
+  const envelope=Math.sin(Math.PI*impact)**2 * (1-impact);
+  // A few shallow radial hops, strongest at the first divider contact.
+  const radialHop=impact>0 ? 10*Math.abs(Math.sin(impact*Math.PI*5.5))*Math.pow(1-impact,1.4) : 0;
+  ballRadius=startRadius+(243-startRadius)*smoothDrop+radialHop;
+  // A subtle sideways ricochet, not a teleport or a change of winning pocket.
+  if(impact>0) ballAngle+=0.028*Math.sin(impact*Math.PI*9)*envelope;
+  drawWheel();
+  if(t<1){spinFrame=requestAnimationFrame(frame)}
+  else{
+   rotation=finalRotation;
+   ballAngle=-Math.PI/2;
+   ballRadius=243;
+   drawWheel();finish(n);
+  }
+ }
+ spinFrame=requestAnimationFrame(frame);
+}
+function announceRound(n,results){
+ if(!$('voiceResults').checked||!('speechSynthesis' in window))return;
+ const color=n===0?'green':RED.has(n)?'red':'black';
+ const winners=results.filter(r=>r.net>0),losers=results.filter(r=>r.stake>0&&r.net<0);
+ let lines=[`Winning number ${n}, ${color}.`];
+ if(winners.length){lines.push(winners.length===1?'We have one winner.':`We have ${winners.length} winners.`);for(const r of winners)lines.push(`${r.name} wins ${r.net} credits net profit, from a bet of ${r.stake} credits.`)}
+ else lines.push('No winning players this round.');
+ for(const r of losers)lines.push(`${r.name} loses ${Math.abs(r.net)} credits, from a bet of ${r.stake} credits.`);
+ for(const r of results.filter(r=>r.stake>0&&r.net===0))lines.push(`${r.name} breaks even.`);
+ try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(lines.join(' '));u.rate=.94;u.volume=.9;speechSynthesis.speak(u)}catch(e){}
+}
+function showRoundResult(n,results){
+ const mine=results[activePlayer],stake=mine.stake,payout=mine.payout,net=mine.net,kind=n===0?'green':RED.has(n)?'red':'black';
+ const winners=results.filter(r=>r.net>0);
+ const outcome=stake===0?'NO BET PLACED':net>0?'YOU WON!':net<0?'YOU LOST':'BREAK EVEN';
+ const card=$('roundCard');card.classList.toggle('loss',net<0);
+ $('roundNumber').textContent=n;$('roundNumber').className='round-number '+kind;
+ $('roundHeading').textContent=outcome;
+ $('roundSummary').textContent=`Winning number: ${n} ${kind.toUpperCase()} · ${winners.length?winners.map(r=>r.name).join(', ')+' won this round.':'No players made a net profit this round.'}`;
+ $('roundStake').textContent=fmt(stake);$('roundReturn').textContent=fmt(payout);
+ $('roundNet').className='round-net '+(net>0?'positive':net<0?'negative':'neutral');
+ $('roundNet').textContent=`NET ${net>0?'+':net<0?'−':''}${fmt(Math.abs(net))} credits`;
+ const area=$('roundPlayers');area.replaceChildren();
+ const head=document.createElement('div');head.className='round-player round-player-head';
+ for(const label of ['PLAYER','BET','RETURN','NET']){const el=document.createElement('span');el.textContent=label;head.append(el)}area.append(head);
+ for(const r of results){const row=document.createElement('div');row.className='round-player';const name=document.createElement('strong');name.textContent=r.name;row.append(name);
+ for(const [value,cls] of [[fmt(r.stake),''],[fmt(r.payout),''],[(r.net>0?'+':r.net<0?'−':'')+fmt(Math.abs(r.net)),r.net>0?'positive':r.net<0?'negative':'neutral']]){const el=document.createElement('span');el.className=cls;el.textContent=value;row.append(el)}area.append(row)}
+ $('roundOverlay').classList.add('show');$('roundDismiss').focus();
+ announceRound(n,results);
+}
+const normalRoundDismiss=()=>{$('roundOverlay').classList.remove('show');if('speechSynthesis' in window)speechSynthesis.cancel()};$('roundDismiss').onclick=normalRoundDismiss;
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&$('roundOverlay').classList.contains('show'))$('roundDismiss').click()});
+function finish(n){
+ spinning=false;
+ const results=players.map(p=>{const stake=sum(p.bets),payout=p.bets.reduce((t,b)=>t+b.value*winMultiplier(b.type,n),0);return{name:p.name,stake,payout,net:payout-stake}});
+ // Evaluate each seat against its own bets before clearing the table.
+ for(let i=0;i<players.length;i++){
+  const p=players[i],r=results[i],st=p.stats,bets=p.bets;if(r.net<0)st.biggestRoundLoss=Math.max(st.biggestRoundLoss||0,-r.net);
+  if(r.stake>0){
+   const wasLosing=st.lossStreak>=3;
+   st.rounds++;
+   if(r.net>0){st.wins++;st.streak++;st.bestStreak=Math.max(st.bestStreak,st.streak);if(wasLosing)st.comebacks++;st.lossStreak=0;if(bets.some(b=>b.value===100000))st.highRoller=(st.highRoller||0)+1}
+   else if(r.net<0){st.lossStreak++;st.streak=0}else{st.streak=0;st.lossStreak=0}
+   const winningBets=bets.filter(b=>winMultiplier(b.type,n)>0);
+   const straightHits=winningBets.filter(b=>b.type==='n:'+n).length;
+   if(straightHits){st.straightWins++;st.straightWinsTotal+=straightHits}
+   if(n===0&&straightHits)st.zeroWins++;
+   for(const b of winningBets){
+    const kind=b.type.startsWith('n:')?'straight':b.type.startsWith('dozen:')?'dozen':b.type.startsWith('col:')?'column':b.type;
+    if(!st.distinctWinningTypes.includes(kind))st.distinctWinningTypes.push(kind);
+    if(b.type==='red')st.redWins++;
+    if(b.type==='black')st.blackWins++;
+    if(b.type==='even')st.evenWins++;
+    if(b.type==='odd')st.oddWins++;
+    if(b.type.startsWith('dozen:'))st.dozenWins++;
+    if(b.type.startsWith('col:'))st.columnWins++;
+   }
+   if(n===7&&r.payout>0)st.number7++;
+   if(players.length>=4)st.social=(st.social||0)+1;
+   awardAchievements(p);
+  }
+ }
+ const mine=results[activePlayer];labLastBetsByPlayer=Object.fromEntries(players.map((p,i)=>[i,p.bets.map(b=>({...b}))]));previous=players[activePlayer].bets.map(b=>({...b}));
+ for(let i=0;i<players.length;i++){if(inventoryOn())giveChips(players[i],results[i].payout);else players[i].balance+=results[i].payout;players[i].bets=[]}
+ history.unshift(n);history=history.slice(0,12);$('last').textContent=n;
+ $('last').style.color=n===0?'#6ee5a5':RED.has(n)?'#ff8585':'#f0d19b';$('lastReturn').textContent=fmt(mine.payout);
+ const winners=results.filter(r=>r.net>0);
+ $('result').textContent=`${n} ${n===0?'GREEN':RED.has(n)?'RED':'BLACK'} · ${winners.length?winners.map(r=>r.name).join(', ')+' won':'No net winners'}`;
+ if(winners.length){$('felt').classList.remove('winflash');void $('felt').offsetWidth;$('felt').classList.add('winflash');playSound('win')}else playSound('lose');
+ log(`Result ${n} · ${winners.length?'Winners: '+winners.map(r=>r.name+' +'+fmt(r.net)).join(', '):'No net winners'}`);
+ notify(winners.length?`Winner${winners.length>1?'s':''}: ${winners.map(r=>r.name).join(', ')}`:`Number ${n} — no net winners.`);
+ showRoundResult(n,results);
+ turnsTaken.clear();activePlayer=firstEligiblePlayer();
+ if(mode==='dealer'){bettingOpen=true;seconds=Number($('roundSeconds').value);simulatedThisRound=false}else{bettingOpen=false;autoWait=3}
+ render();
+ if(players.length===1&&isPlayerBusted(0)){$('roundDismiss').textContent='SEE GAME OVER';$('roundDismiss').onclick=()=>{$('roundOverlay').classList.remove('show');if('speechSynthesis' in window)speechSynthesis.cancel();checkForBust();$('roundDismiss').textContent='CONTINUE';$('roundDismiss').onclick=normalRoundDismiss}}else{checkForBust()}
+}
+function drawWheel(){let ctx=$('wheel').getContext('2d');ctx.clearRect(0,0,700,700);ctx.save();ctx.translate(350,350);let wood=ctx.createRadialGradient(-35,-35,65,0,0,339);wood.addColorStop(0,'#261409');wood.addColorStop(.74,'#5a2d17');wood.addColorStop(.94,'#b17a3b');wood.addColorStop(1,'#201008');ctx.beginPath();ctx.arc(0,0,339,0,Math.PI*2);ctx.fillStyle=wood;ctx.fill();ctx.strokeStyle='#e4ba75';ctx.lineWidth=7;ctx.stroke();ctx.beginPath();ctx.arc(0,0,301,0,Math.PI*2);ctx.strokeStyle='#1c140d';ctx.lineWidth=20;ctx.stroke();ctx.save();ctx.rotate(rotation);for(let i=0;i<37;i++){let a=-Math.PI/2+i*step;ctx.beginPath();ctx.moveTo(0,0);ctx.arc(0,0,270,a,a+step);ctx.closePath();ctx.fillStyle=EURO[i]===0?'#087d4c':RED.has(EURO[i])?'#ba2a36':'#13181a';ctx.fill();ctx.strokeStyle='#d5b26c';ctx.lineWidth=1.6;ctx.stroke();ctx.save();ctx.rotate(a+step/2+Math.PI/2);ctx.translate(0,-243);ctx.fillStyle='#fff6e6';ctx.textAlign='center';ctx.textBaseline='middle';ctx.font='bold 18px Georgia';ctx.fillText(EURO[i],0,0);ctx.restore()}ctx.beginPath();ctx.arc(0,0,209,0,Math.PI*2);ctx.fillStyle='#70451f';ctx.fill();ctx.strokeStyle='#f1c37b';ctx.lineWidth=10;ctx.stroke();let metal=ctx.createRadialGradient(0,0,10,0,0,172);metal.addColorStop(0,'#e1b77a');metal.addColorStop(.5,'#553016');metal.addColorStop(.9,'#a46d33');metal.addColorStop(1,'#21130a');ctx.beginPath();ctx.arc(0,0,165,0,Math.PI*2);ctx.fillStyle=metal;ctx.fill();ctx.strokeStyle='#d8ac62';ctx.lineWidth=6;ctx.stroke();for(let i=0;i<8;i++){let a=i*Math.PI/4;ctx.beginPath();ctx.moveTo(Math.cos(a)*45,Math.sin(a)*45);ctx.lineTo(Math.cos(a)*145,Math.sin(a)*145);ctx.strokeStyle='#c08b47';ctx.lineWidth=10;ctx.stroke()}ctx.restore();ctx.beginPath();ctx.arc(0,0,43,0,Math.PI*2);ctx.fillStyle='#e4b978';ctx.fill();ctx.strokeStyle='#573319';ctx.lineWidth=7;ctx.stroke();ctx.beginPath();ctx.arc(0,0,29,0,Math.PI*2);let hubGlow=ctx.createRadialGradient(0,0,1,0,0,29);hubGlow.addColorStop(0,'#fff9da');hubGlow.addColorStop(.48,'#ffe3a1');hubGlow.addColorStop(1,'#c28a40');ctx.fillStyle=hubGlow;ctx.fill();ctx.strokeStyle='#67411d';ctx.lineWidth=3;ctx.stroke();if(ballVisible){let bx=Math.cos(ballAngle)*ballRadius,by=Math.sin(ballAngle)*ballRadius;ctx.beginPath();ctx.arc(bx+4,by+5,13,0,Math.PI*2);ctx.fillStyle='#0009';ctx.fill();let g=ctx.createRadialGradient(bx-5,by-5,1,bx,by,12);g.addColorStop(0,'#fff');g.addColorStop(.7,'#e4e4de');g.addColorStop(1,'#7e8382');ctx.beginPath();ctx.arc(bx,by,12,0,Math.PI*2);ctx.fillStyle=g;ctx.fill()}ctx.restore()}
+function openModal(type){if(gameMode==='career'&&type!=='cash'){notify('Career balances are locked. Cash out to repay your loan.');return}if(spinning){notify('Wait until the spin finishes.');return}modalType=type;const d={buy:['Buy in','Move virtual credits from your wallet to your chip balance.'],return:['Return chips','Return unused chips from your table balance to your wallet.'],cash:['Cash out','Move all or some unused chips to your virtual wallet. No real money is transferred.']}[type];$('modalTitle').textContent=d[0];$('modalDesc').textContent=d[1];$('amount').value=type==='buy'?50000:players[0].balance;$('modalBack').classList.add('show');$('amount').focus()}
+function confirmModal(){let a=Number($('amount').value),p=players[0];if(!Number.isSafeInteger(a)||a<=0||a%1000){notify('Enter a positive multiple of 1,000.');return}if(gameMode==='career'&&modalType!=='cash'){notify('Balance transfers are disabled in Career.');return}if(modalType==='buy'){if(a>wallet){notify('Insufficient virtual wallet balance.');return}wallet-=a;p.balance+=a}else{if(a>p.balance){notify('You can only return unused chips.');return}p.balance-=a;if(gameMode==='career'){const paid=Math.min(a,careerDebt);careerDebt-=paid;careerRepaid+=paid;wallet+=a-paid;if(careerDebt===0&&!careerFinished){careerFinished=true;notify('🏆 CAREER COMPLETE! Your million-credit loan is paid!');playSound('achievement')}}else wallet+=a;if(modalType==='cash'){p.stats.cashOutTotal=(p.stats.cashOutTotal||0)+a;awardAchievements(p)}}log(`${modalType==='buy'?'Buy-in':modalType==='return'?'Chip return':'Virtual cash-out'}: ${fmt(a)} credits`);$('modalBack').classList.remove('show');render();notify(`${fmt(a)} virtual credits transferred`);checkForBust()}
+function adjustWallet(sign){if(gameMode==='career'){notify('Career wallet cannot be edited.');return}if(spinning){notify('Wait until the spin finishes.');return}const amount=Number($('walletAdjustAmount').value);if(!Number.isSafeInteger(amount)||amount<=0||amount%1000){notify('Enter a positive multiple of 1,000.');return}if(sign<0&&amount>wallet){notify('Not enough credits in the wallet.');return}wallet+=sign*amount;log('Dealer '+(sign>0?'added ':'removed ')+fmt(amount)+' wallet credits');render()}
+function adjustPlayer(sign){if(gameMode==='career'){notify('Career balances cannot be edited.');return}if(spinning){notify('Wait for the spin to finish.');return}let i=Number($('playerSelect').value),amount=Number($('adjustAmount').value);if(!Number.isSafeInteger(amount)||amount<=0||amount%1000){notify('Enter a positive multiple of 1,000.');return}let p=players[i];if(sign<0&&p.balance<amount){notify('Insufficient unused player balance.');return}p.balance+=sign*amount;log(`Dealer ${sign>0?'credited':'debited'} ${fmt(amount)} credits ${p.name}`);render()}
+function updatePlayerOptions(){for(const id of ['activePlayer','playerSelect']){const el=$(id),v=Number(el.value);el.replaceChildren(...players.map((p,i)=>{const o=document.createElement('option');o.value=i;o.textContent=p.name;return o}));el.value=String(Math.min(v,players.length-1))}};
+function nextTurn(){if(spinning||!bettingOpen){notify('Betting is not open.');return}turnsTaken.add(activePlayer);let next=-1;for(let k=1;k<=players.length;k++){let j=(activePlayer+k)%players.length;if(!turnsTaken.has(j)&&canTakeTurn(j)){next=j;break}}if(next<0){notify('All player turns finished. Dealer can close betting and spin.');log('All turns complete');render();return}activePlayer=next;autoAdvanceCpu();playSound('turn');log(players[activePlayer].name+' is now betting');render()}
+$('seatSelect').onchange=()=>{const count=Number($('seatSelect').value);if(gameMode==='career'){notify('Career is single-player.');$('seatSelect').value='1';return}if(spinning){notify('Wait for the wheel to stop before changing seats.');$('seatSelect').value=String(players.length);return}if(count<players.length&&players.slice(count).some(p=>p.bets.length)){notify('Finish the round or clear removed players’ bets before reducing seats.');$('seatSelect').value=String(players.length);return}if(count>players.length){for(let i=players.length;i<count;i++){const p=makePlayer(i);p.cpu=false;players.push(p)}}else players.length=count;activePlayer=Math.min(activePlayer,count-1);turnsTaken=new Set([...turnsTaken].filter(i=>i<count));simulatedThisRound=false;updatePlayerOptions();render();log('Table configured for '+count+' player'+(count===1?'':'s'));};
+$('aiEnabled').onchange=()=>{if(gameMode==='career'){$('aiEnabled').value='off';notify('Career mode has no AI opponents.');return}aiEnabled=$('aiEnabled').value==='on';simulatedThisRound=false;log('Computer opponents '+(aiEnabled?'enabled':'disabled'));notify(aiEnabled?'Computer bets enabled':'Computer bets disabled — no automatic opponents')};
+$('turnMode').onchange=()=>{turnsTaken.clear();autoAdvanceCpu();render()};
+$('activePlayer').onchange=()=>{if(spinning)return;const i=Number($('activePlayer').value);if(!canTakeTurn(i)){notify('That player is out of chips and cannot take a turn.');render();return}if($('turnMode').value==='round'&&turnsTaken.has(i)){notify('That player has already completed their turn.');render();return}activePlayer=i;autoAdvanceCpu();render()};
+$('nextTurn').onclick=nextTurn;
+$('newTurns').onclick=()=>{if(spinning)return;turnsTaken.clear();activePlayer=firstEligiblePlayer();autoAdvanceCpu();render();log('New turn order started')};
+$('confirm').onclick=confirmModal;$('cancel').onclick=()=>$('modalBack').classList.remove('show');$('modalBack').onclick=e=>{if(e.target===$('modalBack'))$('modalBack').classList.remove('show')};$('amount').onkeydown=e=>{if(e.key==='Enter')confirmModal()};$('buy').onclick=()=>openModal('buy');$('return').onclick=()=>openModal('return');$('cash').onclick=()=>openModal('cash');$('undo').onclick=()=>{let p=players[activePlayer];if(!bettingOpen||spinning||!p.bets.length)return;let b=p.bets.pop();if(inventoryOn())refundChips(p,[b]);else p.balance+=b.value;render()};$('clear').onclick=()=>{if(!bettingOpen||spinning)return;let p=players[activePlayer];if(inventoryOn())refundChips(p,p.bets);else p.balance+=sum(p.bets);p.bets=[];render()};$('rebet').onclick=()=>{if(!bettingOpen||spinning)return;let p=players[activePlayer],amount=sum(previous);if(p.bets.length){notify('Clear your current bet before rebetting.');return}if(!canSpendChips(p,previous)||( !inventoryOn()&&amount>p.balance)){notify('Not enough available chips to rebet.');return}if(!canAddBets(p,previous)){notify('Rebet exceeds the 200,000 per-space limit.');return}if(inventoryOn())spendChips(p,previous);else p.balance-=amount;p.bets=previous.map(b=>({...b}));render()};$('double').onclick=()=>{if(!bettingOpen||spinning)return;let p=players[activePlayer],amount=sum(p.bets);if(!canSpendChips(p,p.bets)||(!inventoryOn()&&amount>p.balance)){notify('Not enough available chips to double.');return}if(!canAddBets(p,p.bets)){notify('Doubling exceeds the 200,000 per-space limit.');return}if(inventoryOn())spendChips(p,p.bets);else p.balance-=amount;p.bets.push(...p.bets.map(b=>({...b})));render()};$('voiceResults').checked=localStorage.getItem('anvilVoice')==='true';$('voiceResults').onchange=()=>localStorage.setItem('anvilVoice',String($('voiceResults').checked));$('chipView').onchange=render;$('currency').onchange=render;$('spaceLimit').onchange=()=>notify($('spaceLimit').value==='on'?'200,000 per-space limit enabled':'Per-space limit disabled');$('oddsHelp').onclick=()=>{oddsHelpEnabled=!oddsHelpEnabled;updateOddsUI()};$('spin').onclick=startSpin;$('dealerSpin').onclick=startSpin;$('betToggle').onclick=()=>bettingOpen?closeBetting():openBetting();$('openBet').onclick=openBetting;$('closeBet').onclick=closeBetting;$('mode').onchange=()=>{mode=$('mode').value;if(!spinning){openBetting()}log(`Mode changed to ${mode==='auto'?'automatic':'dealer-controlled'}`);render()};$('roundSeconds').onchange=()=>{if(!spinning&&bettingOpen){seconds=Number($('roundSeconds').value);render()}};$('creditWallet').onclick=()=>adjustWallet(1);$('debitWallet').onclick=()=>adjustWallet(-1);$('creditPlayer').onclick=()=>adjustPlayer(1);$('debitPlayer').onclick=()=>adjustPlayer(-1);$('resetDemo').onclick=()=>{if(gameMode==='career'){notify('Career cannot be reset from dealer controls. Start a new career from the welcome screen.');return}if(spinning){notify('Wait for the spin to finish.');return}if(!confirm('Reset all virtual balances, bets, and history?'))return;players=basePlayers(Number($('seatSelect').value));updatePlayerOptions();wallet=0;previous=[];labLastBetsByPlayer={};history=[];logs=[];simulatedThisRound=false;achievementQueue=[];clearTimeout(achievementTimer);achievementTimer=null;$('achievementPop').classList.remove('show');turnsTaken.clear();activePlayer=0;bettingOpen=true;seconds=Number($('roundSeconds').value);rotation=0;ballAngle=-Math.PI/2;ballRadius=282;$('last').textContent='—';$('lastReturn').textContent='0';$('result').textContent='Select a chip and place your bets';log('Demo reset');render();drawWheel()};
+const SAVE_KEY='anvilRouletteCompleteSaveV1';
+function snapshot(){return {version:1,savedAt:new Date().toISOString(),gameMode,careerDebt,careerRepaid,careerFinished,players:JSON.parse(JSON.stringify(players)),wallet,selected,previous,history,logs,mode,bettingOpen,seconds,rotation,ballAngle,ballRadius,activePlayer,turnsTaken:[...turnsTaken],aiEnabled,inventoryMode:inventoryOn(),settings:{seatSelect:$('seatSelect').value,turnMode:$('turnMode').value,chipView:$('chipView').value,sound:$('sound').value,currency:$('currency').value,spaceLimit:$('spaceLimit').value,roundSeconds:$('roundSeconds').value,voiceResults:$('voiceResults').checked,achievementSoundEnabled},last:$('last').textContent,lastReturn:$('lastReturn').textContent,result:$('result').textContent}}
+function restoreGame(d){bustedPlayers.clear();bustPromptShown=false;if(!d||d.version!==1||!Array.isArray(d.players)||d.players.length<1||d.players.length>8)throw Error('Invalid or incompatible save file');if(spinning)throw Error('Wait until the spin finishes');if(!d.players.every(p=>typeof p.name==='string'&&Number.isFinite(p.balance)&&p.balance>=0&&Array.isArray(p.bets)&&p.bets.every(b=>typeof b.type==='string'&&DENOMS.some(x=>x.v===b.value))))throw Error('Invalid player or bet data');gameMode=d.gameMode==='career'?'career':'freeplay';$('inventoryMode').checked=Boolean(d.inventoryMode);localStorage.setItem('anvilInventoryMode',d.inventoryMode?'yes':'no');if(gameMode==='career'&&d.players.length!==1)throw Error('Career save must have one player');careerDebt=gameMode==='career'?Math.max(0,Math.min(1000000,Number(d.careerDebt)??1000000)):1000000;careerRepaid=gameMode==='career'?Math.max(0,1000000-careerDebt):0;careerFinished=careerDebt===0;players=d.players.map((p,i)=>({...makePlayer(i),...p,cpu:gameMode==='career'?false:(typeof p.cpu==='boolean'?p.cpu:(Boolean(d.aiEnabled)&&i>0)),achievements:Array.isArray(p.achievements)?p.achievements:[],stats:{...makePlayer(i).stats,...p.stats}}));wallet=Number(d.wallet)||0;selected=DENOMS.some(x=>x.v===d.selected)?d.selected:5000;previous=Array.isArray(d.previous)?d.previous:[];labLastBetsByPlayer={};history=Array.isArray(d.history)?d.history:[];logs=Array.isArray(d.logs)?d.logs:[];mode=d.mode==='auto'?'auto':'dealer';bettingOpen=Boolean(d.bettingOpen);seconds=Number(d.seconds)||30;rotation=Number(d.rotation)||0;ballAngle=Number(d.ballAngle)||-Math.PI/2;ballRadius=Number(d.ballRadius)||282;activePlayer=Math.min(players.length-1,Math.max(0,Number(d.activePlayer)||0));turnsTaken=new Set((d.turnsTaken||[]).filter(i=>Number.isInteger(i)&&i>=0&&i<players.length));aiEnabled=gameMode==='career'?false:Boolean(d.aiEnabled);aiEnabled=players.some(p=>p.cpu);simulatedThisRound=false;autoWait=0;spinning=false;const st=d.settings||{};$('seatSelect').value=String(players.length);$('aiEnabled').value=aiEnabled?'on':'off';$('turnMode').value=st.turnMode==='free'?'free':'round';$('chipView').value=st.chipView==='compact'?'compact':'stack';$('sound').value=st.sound==='off'?'off':'on';$('currency').value=st.currency||'none';if(!$('currency').value)$('currency').value='none';$('spaceLimit').value=st.spaceLimit==='on'?'on':'off';$('roundSeconds').value=String(st.roundSeconds||30);$('mode').value=mode;$('voiceResults').checked=Boolean(st.voiceResults);achievementSoundEnabled=st.achievementSoundEnabled!==false;$('achievementSound').textContent='🔔 Achievement sound: '+(achievementSoundEnabled?'ON':'OFF');$('last').textContent=d.last||'—';$('lastReturn').textContent=d.lastReturn||'0';$('result').textContent=d.result||'Welcome back';achievementQueue=[];clearTimeout(achievementTimer);achievementTimer=null;$('achievementPop').classList.remove('show');updatePlayerOptions();updateOddsUI();render();drawWheel();$('setupBack').classList.add('hidden');notify('Saved game loaded — welcome back!');checkForBust()}
+$('saveGame').onclick=()=>{if(spinning){notify('Save between spins.');return}try{localStorage.setItem(SAVE_KEY,JSON.stringify(snapshot()));notify('Game saved in this browser!')}catch(e){notify('Could not save in browser. Try Export Save File.')}};
+$('loadGame').onclick=()=>{try{const raw=localStorage.getItem(SAVE_KEY);if(!raw){notify('No saved game found in this browser.');return}restoreGame(JSON.parse(raw))}catch(e){notify('Could not load: '+e.message)}};
+$('exportGame').onclick=()=>{if(spinning){notify('Export between spins.');return}const blob=new Blob([JSON.stringify(snapshot(),null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='anvil-roulette-save.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);notify('Save file exported')};
+$('importGame').onclick=()=>$('importFile').click();$('importFile').onchange=async e=>{const f=e.target.files?.[0];if(!f)return;try{if(f.size>2000000)throw Error('File too large');restoreGame(JSON.parse(await f.text()))}catch(err){notify('Import failed: '+err.message)}finally{e.target.value=''}};
+$('startTable').onclick=()=>{try{const inputs=Array.from($('setupNames').querySelectorAll('input'));const names=inputs.map(i=>i.value.trim());beginGame($('setupGameMode').value,Number($('setupPlayers').value),$('setupAI').value==='on',names);$('setupBack').classList.add('hidden');log(gameMode==='career'?'Career started: 20,000 chips · 1,000,000 loan':'Freeplay started · '+players.length+' player(s)');playSound('turn')}catch(err){console.error('Start Playing failed:',err);alert('Could not start the game: '+err.message)}};
+$('setupLoad').onclick=()=>$('loadGame').click();
+setInterval(()=>{if(spinning)return;if(mode==='dealer'){return}if(autoWait>0){autoWait--;if(autoWait===0)openBetting();return}if(!bettingOpen){openBetting();return}if(seconds>0){seconds--;render()}if(seconds===0)startSpin()},1000);
+window.anvilGetSimulationBets=()=>{const p=players[activePlayer];const live=p.bets.map(b=>({...b}));const saved=labLastBetsByPlayer[activePlayer]||((previous.length&&activePlayer===0)?previous:[]);return {name:p.name,bets:live.length?live:saved.map(b=>({...b})),source:live.length?'Current board':'Last completed round'}};
+createBoard();updatePlayerOptions();updateOddsUI();log('Virtual table ready · AI off · round robin enabled');render();drawWheel();
+})();
+
+// Self-contained odds lab: never reads or writes game state.
+(function(){
+const $lab=id=>document.getElementById(id);
+const redNumbers=new Set([1,3,5,7,9,12,14,16,18,19,21,23,25,27,30,32,34,36]);
+const categories=[['Straight-up',1,35],['Split',2,17],['Street',3,11],['Corner',4,8],['Six line',6,5],['Dozen',12,2],['Column',12,2],['Red / Black',18,1],['Even / Odd',18,1],['1–18 / 19–36',18,1]];
+const pct=n=>(100*n).toFixed(2)+'%';
+const number=n=>n.toLocaleString('en-US',{maximumFractionDigits:0});
+const make=(label,nums)=>({label,nums});
+function optionsFor(type){const options=[];
+ if(type==='straight')for(let n=0;n<=36;n++)options.push(make('Number '+n,[n]));
+ if(type==='split'){
+  for(let col=0;col<12;col++)for(let row=0;row<3;row++){
+   const n=(col+1)*3-row;
+   if(row<2)options.push(make(n+' / '+(n-1),[n,n-1]));
+   if(col<11)options.push(make(n+' / '+(n+3),[n,n+3]));
+  }
+  for(let n=1;n<=3;n++)options.push(make('0 / '+n,[0,n]));
+ }
+ if(type==='corner')for(let col=0;col<11;col++)for(let row=0;row<2;row++){
+  const n=(col+1)*3-row,ns=[n,n-1,n+3,n+2];options.push(make(ns.join(' / '),ns));
+ }
+ if(type==='street')for(let col=0;col<12;col++){const n=col*3+1;options.push(make(n+'–'+(n+2),[n,n+1,n+2]));}
+ if(type==='sixline')for(let col=0;col<11;col++){const n=col*3+1;options.push(make(n+'–'+(n+5),Array.from({length:6},(_,i)=>n+i)));}
+ if(type==='dozen')for(let col=0;col<3;col++){const n=col*12+1;options.push(make(n+'–'+(n+11),Array.from({length:12},(_,i)=>n+i)));}
+ if(type==='column')for(let col=1;col<=3;col++)options.push(make('Column '+col,Array.from({length:12},(_,i)=>col+i*3)));
+ if(type==='red')options.push(make('Red',[...redNumbers]));
+ if(type==='black')options.push(make('Black',Array.from({length:36},(_,i)=>i+1).filter(n=>!redNumbers.has(n))));
+ if(type==='even')options.push(make('Even',Array.from({length:18},(_,i)=>2+i*2)));
+ if(type==='odd')options.push(make('Odd',Array.from({length:18},(_,i)=>1+i*2)));
+ if(type==='low')options.push(make('1–18',Array.from({length:18},(_,i)=>i+1)));
+ if(type==='high')options.push(make('19–36',Array.from({length:18},(_,i)=>i+19)));
+ return options;
+}
+let currentOptions=[];
+function refresh(){currentOptions=optionsFor($lab('labBetType').value);const sel=$lab('labBetChoice');sel.replaceChildren();for(let i=0;i<currentOptions.length;i++){const opt=document.createElement('option');opt.value=String(i);opt.textContent=currentOptions[i].label;sel.append(opt)}clear();}
+function clear(){$lab('labRollOutput').hidden=true;$lab('labSummary').innerHTML='<p class="muted">Choose a bet and press Simulate Bet to see its hit rate and returns.</p>';$lab('labChart').hidden=true;}
+function metric(name,value,kind){const d=document.createElement('div');d.className='lab-metric '+(kind||'');const small=document.createElement('small');small.textContent=name;const strong=document.createElement('strong');strong.textContent=value;d.append(small,strong);return d;}
+function sampleSpins(count){const vals=new Uint32Array(count),bound=Math.floor(4294967296/37)*37,hasCrypto=!!(window.crypto&&crypto.getRandomValues);if(hasCrypto){for(let i=0;i<count;i+=16384)crypto.getRandomValues(vals.subarray(i,Math.min(i+16384,count)))}else for(let i=0;i<count;i++)vals[i]=Math.floor(Math.random()*4294967296);const rolls=new Uint8Array(count);for(let i=0;i<count;i++){let v=vals[i];while(v>=bound){if(hasCrypto){const a=new Uint32Array(1);crypto.getRandomValues(a);v=a[0]}else v=Math.floor(Math.random()*4294967296)}rolls[i]=v%37}return rolls}
+function labBets(){if($lab('labSource').value==='board'){const snapshot=window.anvilGetSimulationBets?.();return (snapshot?.bets||[]).map(b=>({type:b.type,stake:b.value,label:b.type}))}const choice=currentOptions[Number($lab('labBetChoice').value)];if(!choice)return [];const stake=Number($lab('labStake').value);if(!Number.isFinite(stake)||stake<1||stake>100000000){alert('Enter a virtual stake between 1 and 100,000,000.');return []}return [{type:'custom',stake,label:choice.label,nums:choice.nums}]}
+function labMultiplier(b,n){
+ if(b.nums)return b.nums.includes(n)?36/b.nums.length:0;
+ const type=b.type;
+ if(type.startsWith('sixline:'))return type.slice(8).split(',').map(Number).includes(n)?6:0;
+ if(type.startsWith('street:'))return type.slice(7).split(',').map(Number).includes(n)?12:0;
+ if(type.startsWith('split:'))return type.slice(6).split(',').map(Number).includes(n)?18:0;
+ if(type.startsWith('corner:'))return type.slice(7).split(',').map(Number).includes(n)?9:0;
+ if(type.startsWith('n:'))return Number(type.slice(2))===n?36:0;
+ if(n===0)return 0;
+ if(type.startsWith('dozen:'))return Math.floor((n-1)/12)===Number(type.slice(6))?3:0;
+ if(type.startsWith('col:'))return (3-n%3)%3===Number(type.slice(4))?3:0;
+ const conditions={low:n<=18,high:n>=19,even:n%2===0,odd:n%2===1,red:redNumbers.has(n),black:!redNumbers.has(n)};
+ return conditions[type]?2:0;
+}
+function simulate(){refreshSource();const bets=labBets();if(!bets.length){$lab('labSummary').innerHTML='<p class="muted">No board bets found. Place chips on the main table first (or use the last completed round), then simulate. You can also choose Single example bet.</p>';return}const spins=Number($lab('labSpins').value),rolls=sampleSpins(spins),stake=bets.reduce((t,b)=>t+b.stake,0);let hits=0,paid=0;for(const n of rolls){let won=false;for(const b of bets){const multiplier=labMultiplier(b,n);if(multiplier>0){won=true;paid+=b.stake*multiplier}}if(won)hits++}const coverage=Array.from({length:37},(_,n)=>bets.some(b=>labMultiplier(b,n)>0)),covered=coverage.filter(Boolean).length,chance=covered/37,actual=hits/spins,wager=stake*spins,net=paid-wager;const root=$lab('labSummary');root.replaceChildren(metric('Bet selection',$lab('labSource').value==='board'?(window.anvilGetSimulationBets?.()?.name||'Player')+' · '+bets.length+' chips · '+(window.anvilGetSimulationBets?.()?.source||'Board'):bets[0].label),metric('Numbers covered',covered+' / 37'),metric('Theoretical chance of any payout',pct(chance)),metric('Actual spins with a payout',pct(actual)),metric('Hit spins',number(hits)+' / '+number(spins)),metric('Stake per spin',number(stake)),metric('Total virtual wagered',number(wager)),metric('Total virtual returned',number(paid)),metric('Simulated net',(net>=0?'+':'−')+number(Math.abs(net)),net>=0?'positive':'negative'),metric('Expected net (2.70% house edge)','−'+number(wager/37),'negative'));$lab('labRollOutput').hidden=true;$lab('labChart').hidden=false;const scale=Math.max(chance,actual,.01)*1.1;$lab('labExpectedBar').style.width=(100*chance/scale)+'%';$lab('labActualBar').style.width=(100*actual/scale)+'%';$lab('labExpectedText').textContent=pct(chance);$lab('labActualText').textContent=pct(actual)}
+function simulateNumbers(){const spins=Number($lab('labSpins').value),rolls=sampleSpins(spins),freq=new Uint32Array(37);for(const n of rolls)freq[n]++;const root=$lab('labRollOutput');root.replaceChildren();const heading=document.createElement('h3');heading.textContent='Spin results — '+number(spins)+' independent rolls';root.append(heading);const desc=document.createElement('p');desc.className='muted';desc.textContent='No bets or money involved. Counts include zero; each number has a theoretical 1/37 (2.70%) chance per spin.';root.append(desc);const controls=document.createElement('div');controls.className='lab-frequency-controls';
+ const sortLabel=document.createElement('label');sortLabel.textContent='Sort results ';
+ const sort=document.createElement('select');sort.innerHTML='<option value="number">Number order (0–36)</option><option value="most">Most hits first</option><option value="least">Fewest hits first</option>';
+ sortLabel.append(sort);controls.append(sortLabel);root.append(controls);
+ const stats=document.createElement('div');stats.className='lab-number-stats';const tiles=[];for(let n=0;n<=36;n++){const tile=document.createElement('div');tile.className='lab-number-stat '+(n===0?'green':redNumbers.has(n)?'red':'black');tile.innerHTML='<strong>'+n+'</strong><span>'+number(freq[n])+' hits</span><small>'+(100*freq[n]/spins).toFixed(2)+'%</small>';
+ tile.dataset.number=n;tiles.push(tile);stats.append(tile)}
+ sort.onchange=()=>{const order=tiles.slice().sort((a,b)=>sort.value==='most'?freq[Number(b.dataset.number)]-freq[Number(a.dataset.number)]||Number(a.dataset.number)-Number(b.dataset.number):sort.value==='least'?freq[Number(a.dataset.number)]-freq[Number(b.dataset.number)]||Number(a.dataset.number)-Number(b.dataset.number):Number(a.dataset.number)-Number(b.dataset.number));stats.replaceChildren(...order)};
+ root.append(stats);const sample=document.createElement('p');sample.className='muted';sample.textContent='First '+Math.min(100,spins)+' rolls: '+Array.from(rolls.slice(0,100)).join(', ');root.append(sample);root.hidden=false;$lab('labChart').hidden=true;$lab('labSummary').innerHTML='<p class="muted">Numbers-only simulation complete. No money or game data changed.</p>'}
+function refreshSource(){const single=$lab('labSource').value==='single';const snap=window.anvilGetSimulationBets?.();let info=$lab('labBoardStatus');if(info)info.textContent=single?'Example bet mode':snap?.bets.length?`${snap.name}: ${snap.bets.length} chips · ${snap.source} · ${number(snap.bets.reduce((a,b)=>a+b.value,0))} credits per spin`:'No current bets — place chips on the main board first';for(const id of ['labBetType','labBetChoice','labStake'])$lab(id).disabled=!single}
+$lab('labSource').addEventListener('change',refreshSource);refreshSource();$lab('labRollRun').addEventListener('click',simulateNumbers);
+
+const body=$lab('labBreakdown');for(const [name,count,payout] of categories){const tr=document.createElement('tr');for(const value of [name,count+' / 37',payout+':1',pct(count/37),'~'+(37/count).toFixed(2)+' spins']){const td=document.createElement('td');td.textContent=value;tr.append(td)}body.append(tr)}
+$lab('labBetType').addEventListener('change',refresh);$lab('labRun').addEventListener('click',simulate);$lab('labClear').addEventListener('click',clear);refresh();
+})();
+</script></body></html>

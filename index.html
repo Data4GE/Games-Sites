@@ -1,1 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#101313"><meta name="description" content="Anvil Games — a growing collection of free browser games.">
+<title>Anvil Games | Play Something Great</title>
+<style>
+:root{color-scheme:dark;--bg:#101313;--panel:#1b2020;--line:#353d3c;--text:#f4f0e9;--muted:#b3bcb8;--red:#dc3847;--gold:#edcb85}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(ellipse at 80% 4%,#402025 0%,transparent 35%),radial-gradient(ellipse at 4% 65%,#1d3731 0%,transparent 38%),var(--bg);color:var(--text);font:16px/1.55 system-ui,-apple-system,Segoe UI,sans-serif;min-height:100vh}a{color:inherit;text-decoration:none}button,input{font:inherit}
+.wrap{width:min(1160px,calc(100% - 40px));margin:auto}.header{border-bottom:1px solid #ffffff16;background:#101313d9;backdrop-filter:blur(16px);position:sticky;top:0;z-index:10}.nav{min-height:82px;display:flex;align-items:center;justify-content:space-between;gap:18px}.brand{display:flex;align-items:center;gap:12px;font-weight:900;font-size:21px;letter-spacing:.025em}.brand svg{width:72px;height:48px}.brand span b{color:var(--red)}.navlinks{display:flex;gap:26px;align-items:center;color:#d4d9d5;font-size:14px}.navlinks a:hover{color:white}.navlinks .nav-cta{border:1px solid #8f5559;border-radius:9px;padding:10px 16px;color:#fff}
+.hero{padding:95px 0 68px;display:grid;grid-template-columns:1.2fr .8fr;gap:55px;align-items:center}.eyebrow{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);font-weight:800}.hero h1{font-size:clamp(45px,7vw,84px);line-height:1.02;letter-spacing:-.06em;margin:15px 0 24px}.hero h1 em{font-style:normal;color:var(--red)}.hero p{font-size:18px;color:var(--muted);max-width:590px}.actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:30px}.btn{display:inline-flex;justify-content:center;align-items:center;gap:10px;padding:13px 22px;border-radius:10px;font-weight:800;border:1px solid #616967;transition:transform .15s,background .15s}.btn:hover{transform:translateY(-2px)}.btn.primary{background:var(--red);border-color:var(--red);color:white}.btn.primary:hover{background:#f04655}.hero-art{min-height:350px;border:1px solid #70434a;border-radius:28px;display:grid;place-items:center;position:relative;overflow:hidden;background:radial-gradient(circle,#7a2a35 0%,#351e25 40%,#1a2020 74%);box-shadow:0 25px 100px #0008}.hero-art:before,.hero-art:after{content:"";position:absolute;border:1px solid #ffffff16;border-radius:50%;width:310px;height:310px}.hero-art:after{width:440px;height:440px}.hero-art svg{width:min(82%,340px);height:auto;filter:drop-shadow(0 22px 22px #0007);z-index:1}.hero-art small{position:absolute;bottom:20px;color:#ffffffa0;letter-spacing:.25em;font-size:10px}
+.section{padding:36px 0 90px}.section-head{display:flex;align-items:end;justify-content:space-between;gap:18px;margin-bottom:24px}.section h2{font-size:clamp(28px,4vw,42px);letter-spacing:-.04em;margin:0}.section-head p{color:var(--muted);margin:5px 0 0}.search{width:min(260px,100%);border:1px solid var(--line);background:#171c1c;border-radius:10px;padding:12px 15px;color:white;outline:none}.search:focus{border-color:var(--gold)}
+.games{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}.game{border:1px solid var(--line);border-radius:17px;background:linear-gradient(145deg,#252b2a,#171b1b);overflow:hidden;display:flex;flex-direction:column;transition:transform .15s,border-color .15s}.game:hover{transform:translateY(-4px);border-color:#9b6d65}.game-visual{min-height:185px;background:radial-gradient(circle at 50% 25%,#57313a,#1d2523 75%);display:grid;place-items:center;position:relative;overflow:hidden}.game-visual svg{width:145px;max-height:120px}.game-visual .symbol{font-size:88px;line-height:1;text-shadow:0 10px 25px #0008}.game-visual .label{position:absolute;top:13px;left:14px;font-size:10px;font-weight:800;letter-spacing:.11em;background:#101515c9;border:1px solid #ffffff24;border-radius:100px;padding:5px 10px;text-transform:uppercase}.game-info{padding:22px;display:flex;flex-direction:column;flex:1}.game h3{font-size:23px;letter-spacing:-.035em;margin:0}.game p{color:var(--muted);font-size:14px;margin:8px 0 22px;flex:1}.game-bottom{display:flex;justify-content:space-between;align-items:center;gap:10px}.game-bottom .genre{font-size:12px;color:var(--gold)}.play{border:1px solid #8d5359;border-radius:9px;padding:9px 16px;font-weight:800;color:#fff}.play:hover{background:#9b3440}.empty{grid-column:1/-1;color:var(--muted);border:1px dashed var(--line);border-radius:14px;padding:35px;text-align:center}
+.about{border-top:1px solid #ffffff1c;padding:40px 0 60px;display:flex;justify-content:space-between;gap:24px;align-items:center}.about p{color:var(--muted);max-width:600px;margin:5px 0}.footer{border-top:1px solid #ffffff17;padding:20px 0 32px;color:#a5adaa;font-size:13px}.footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+@media(max-width:850px){.hero{grid-template-columns:1fr;padding:65px 0 40px;gap:30px}.hero-art{min-height:260px}.games{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:550px){.wrap{width:min(100% - 28px,1160px)}.navlinks a:not(.nav-cta){display:none}.brand{font-size:17px}.brand svg{width:58px}.games{grid-template-columns:1fr}.section-head{align-items:stretch;flex-direction:column}.search{width:100%}.hero h1{font-size:52px}.about{display:block}}
+</style>
+</head>
+<body>
+<header class="header"><nav class="nav wrap"><a class="brand" href="#top" aria-label="Anvil Games home"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 430 260" role="img" aria-label="Anvil Games logo">
+  <defs>
+    <mask id="anvil-cut-homepage">
+      <rect width="430" height="260" fill="white"/>
+      <circle cx="236" cy="91" r="31" fill="black"/>
+      <rect x="229" y="110" width="15" height="101" fill="black"/>
+    </mask>
+  </defs>
+  <!-- Original anvil geometry, recoloured red. -->
+  <g fill="#D62F3C" mask="url(#anvil-cut-homepage)">
+    <path d="M24 16 H320 V29 Q320 40 329 40 Q337 40 337 29 V16 H404 V67 H375 C338 67 312 78 298 105 C282 112 271 127 270 147 C269 167 285 181 324 193 V219 H328 V223 H136 V196 C169 188 191 170 191 147 C191 124 170 109 143 108 H126 V89 C77 75 42 53 24 25 Z"/>
+    <path d="M136 194 H328 V223 H136 Z"/>
+  </g></svg><span>ANVIL <b>GAMES</b></span></a><div class="navlinks"><a href="#games">Games</a><a href="#about">About</a><a class="nav-cta" href="#games">Browse games →</a></div></nav></header>
+<main id="top"><section class="hero wrap"><div><div class="eyebrow">The Anvil Arcade</div><h1>Good games.<br><em>Forged here.</em></h1><p>A home for Anvil's browser games. Pick a game, jump straight in, and check back as the collection grows.</p><div class="actions"><a class="btn primary" href="#games">Explore games →</a><a class="btn" href="anvil_roulette.html">Play Roulette</a></div></div><div class="hero-art" aria-label="Anvil Games logo"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 430 260" role="img" aria-label="Anvil Games logo">
+  <defs>
+    <mask id="anvil-cut-homepage">
+      <rect width="430" height="260" fill="white"/>
+      <circle cx="236" cy="91" r="31" fill="black"/>
+      <rect x="229" y="110" width="15" height="101" fill="black"/>
+    </mask>
+  </defs>
+  <!-- Original anvil geometry, recoloured red. -->
+  <g fill="#D62F3C" mask="url(#anvil-cut-homepage)">
+    <path d="M24 16 H320 V29 Q320 40 329 40 Q337 40 337 29 V16 H404 V67 H375 C338 67 312 78 298 105 C282 112 271 127 270 147 C269 167 285 181 324 193 V219 H328 V223 H136 V196 C169 188 191 170 191 147 C191 124 170 109 143 108 H126 V89 C77 75 42 53 24 25 Z"/>
+    <path d="M136 194 H328 V223 H136 Z"/>
+  </g></svg><small>FORGED FOR FUN</small></div></section>
+<section class="section wrap" id="games"><div class="section-head"><div><div class="eyebrow">Your game library</div><h2>Choose your game</h2><p>More games can be added by editing one list in this HTML file.</p></div><input class="search" id="search" type="search" placeholder="Search games..." aria-label="Search games"></div><div id="gameGrid" class="games"></div></section>
+<section class="about wrap" id="about"><div><div class="eyebrow">About the arcade</div><h2 style="margin:6px 0">Built to keep growing.</h2><p>Each game has its own page. This homepage is a simple directory you can expand whenever you create another one.</p></div><a class="btn" href="#games">Back to games ↑</a></section></main>
+<footer class="footer"><div class="wrap"><span>© <span id="year"></span> Anvil Games</span><span>Play in your browser · No account required</span></div></footer>
+<script>
+/* ================================================================
+   EDIT YOUR GAMES HERE — add a new { ... } entry for each new game.
 
+   title:       Game title shown on the card
+   description: Short description
+   url:         HTML filename or full https:// link
+   genre:       Small category label
+   icon:        Emoji or text shown on the card (optional)
+   featured:    true adds a "Featured" tag (optional)
+
+   Example: { title: "Chess", description: "Play chess.",
+              url: "chess.html", genre: "Strategy", icon: "♟️" },
+
+   Put each new game HTML file beside this index.html, OR use a URL.
+   ================================================================ */
+const GAMES = [
+  {
+    title: "Anvil Roulette",
+    description: "A full roulette table with multiplayer turns, AI opponents, chip exchange, and a simulation lab.",
+    url: "anvil_roulette.html",
+    genre: "Casino · Virtual credits",
+    icon: "🎰",
+    featured: true
+  }
+  // Add another game here, starting with a comma after the entry above.
+];
+/* ================== END OF EDITABLE GAME LIST =================== */
+
+const grid=document.getElementById('gameGrid');
+const search=document.getElementById('search');
+function renderGames(){
+  const query=search.value.trim().toLowerCase();
+  const games=GAMES.filter(g=>(g.title+' '+g.description+' '+g.genre).toLowerCase().includes(query));
+  grid.replaceChildren();
+  if(!games.length){const msg=document.createElement('p');msg.className='empty';msg.textContent='No games found. Try another search.';grid.append(msg);return;}
+  for(const g of games){
+    const card=document.createElement('article');card.className='game';
+    const visual=document.createElement('div');visual.className='game-visual';
+    const symbol=document.createElement('span');symbol.className='symbol';symbol.textContent=g.icon||'🎮';visual.append(symbol);
+    if(g.featured){const label=document.createElement('span');label.className='label';label.textContent='Featured';visual.append(label);}
+    const info=document.createElement('div');info.className='game-info';
+    const h=document.createElement('h3');h.textContent=g.title;
+    const p=document.createElement('p');p.textContent=g.description;
+    const bottom=document.createElement('div');bottom.className='game-bottom';
+    const genre=document.createElement('span');genre.className='genre';genre.textContent=g.genre;
+    const link=document.createElement('a');link.className='play';link.href=g.url;link.textContent='Play now →';
+    bottom.append(genre,link);info.append(h,p,bottom);card.append(visual,info);grid.append(card);
+  }
+}
+search.addEventListener('input',renderGames);renderGames();document.getElementById('year').textContent=new Date().getFullYear();
+</script>
+</body></html>
